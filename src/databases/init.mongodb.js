@@ -1,8 +1,12 @@
 "use strict";
 
+const { countConnects } = require("../helpers/checkConnections");
+
 const mongoose = require("mongoose");
 
-const connectString = `mongodb://127.0.0.1:27017/eCommerce_TipJS`;
+const config = require("../configs/config.mongodb");
+const { host, name, port } = config.db;
+const connectString = `mongodb://${host}:${port}/${name}`;
 
 class DataBase {
   constructor() {
@@ -15,7 +19,7 @@ class DataBase {
     }
     mongoose
       .connect(connectString)
-      .then((_) => console.log("Success Connect to Mongo DB!"))
+      .then((_) => console.log("Success Connect to Mongo DB!", countConnects()))
       .catch((err) => console.log("Failed to Connect Mongo DB! ::", err));
   }
 
