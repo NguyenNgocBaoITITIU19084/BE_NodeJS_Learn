@@ -20,15 +20,17 @@ app.use(morgan("dev"));
 // =========================================
 app.use(helmet());
 app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // init db
 require("./databases/init.mongodb");
-const { checkOverLoad } = require("./helpers/checkConnections");
-checkOverLoad();
+// const { checkOverLoad } = require("./helpers/checkConnections");
+// checkOverLoad();
+
 // init router
-app.get("/", (req, res, next) => {
-  return res.status(200).json({ message: "wellcome" });
-});
+app.use("/", require("./routes/index"));
+
 // handle error
 
 module.exports = app;
