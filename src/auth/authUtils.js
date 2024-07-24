@@ -5,12 +5,10 @@ const crypto = require("crypto");
 
 const createTokenPair = async (payload, publicKey, privateKey) => {
   try {
-    const accessToken = await jwt.sign(payload, privateKey, {
-      algorithm: "RS256",
+    const accessToken = await jwt.sign(payload, publicKey, {
       expiresIn: "2 days",
     });
     const refeshToken = await jwt.sign(payload, privateKey, {
-      algorithm: "RS256",
       expiresIn: "7 days",
     });
     jwt.verify(accessToken, publicKey, (err, decode) => {

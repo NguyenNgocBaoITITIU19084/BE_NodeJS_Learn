@@ -37,20 +37,18 @@ class AccessService {
 
       if (newShop) {
         //created privateKey, publicKey
-        const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
-          modulusLength: 4096,
-          publicKeyEncoding: { type: "pkcs1", format: "pem" },
-          privateKeyEncoding: { type: "pkcs1", format: "pem" },
-        });
+        const publicKey = crypto.randomBytes(64).toString("hex");
+        const privateKey = crypto.randomBytes(64).toString("hex");
 
         console.log({ privateKey, publicKey });
 
-        const publicKeyString = await KeyTokenService.createKeyToken({
+        const keyStore = await KeyTokenService.createKeyToken({
           userId: newShop._id,
           publicKey,
+          privateKey,
         });
 
-        if (!publicKeyString) {
+        if (!keyStore) {
           return {
             code: "xxx",
             message: "public key string error",
@@ -58,15 +56,12 @@ class AccessService {
           };
         }
 
-        console.log("publicKeyString---", publicKeyString);
-
-        const publicKeyObject = crypto.createPublicKey(publicKeyString);
-        console.log("publicKeyObject=====", publicKeyObject);
+        console.log("keyStore---", keyStore);
 
         //create token pair
         const tokens = await createTokenPair(
           { userId: newShop._id, email },
-          publicKeyObject,
+          publicKey,
           privateKey
         );
         console.log(`Created Token Success::`, tokens);
