@@ -8,10 +8,48 @@ const ROLES = require("../contants/roles");
 const shopModel = require("../models/shop.model");
 const KeyTokenService = require("./keyToken.service");
 const { createTokenPair } = require("../auth/authUtils");
-const { getInfoData } = require("../utils/index");
-const { BadRequestError } = require("../cores/error.response");
+const { getInfoData, genPublicAndPrivateKey } = require("../utils/index");
+const {
+  BadRequestError,
+  AuthFailureError,
+} = require("../cores/error.response");
+const { findByEmail } = require("../services/shop.service");
 
 class AccessService {
+  static login = async ({ email, password, refeshToken = null }) => {
+    const foundShop = await findByEmail({ email });
+    if (!foundShop) throw new AuthFailureError("Shop is not registered!");
+
+    const isMatched = bcrypt.compareSync(password, foundShop.password);
+    if (!isMatched) throw new AuthFailureError("Authentication Error");
+
+    // 3. Generating PublicKey and Private Key
+    const ObjectKey = genPublicAndPrivateKey();
+
+    // create jwt Tokens
+    const tokens = await createTokenPair(
+      { userId: foundShop._id, email },
+      ObjectKey.publicKey,
+      ObjectKey.privateKey
+    );
+
+    // save PublicKey and Private Key into database
+    await KeyTokenService.createKeyToken({
+      userId: foundShop._id,
+      publicKey: ObjectKey.publicKey,
+      privateKey: ObjectKey.privateKey,
+      refeshToken: tokens.refeshToken,
+    });
+
+    return {
+      shop: getInfoData({
+        fields: ["name", "email", "_id"],
+        object: foundShop,
+      }),
+      tokens,
+    };
+  };
+
   static signUp = async ({ name, password, email }) => {
     const holderShop = await ShopModel.findOne({ email }).lean();
     console.log("holderShop", holderShop);

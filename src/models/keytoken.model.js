@@ -19,9 +19,13 @@ var keySchema = new Schema(
       type: String,
       required: true,
     },
-    refeshToken: {
+    refeshTokensUsed: {
       type: Array,
       default: [],
+    },
+    refeshToken: {
+      type: String,
+      required: true,
     },
   },
   {

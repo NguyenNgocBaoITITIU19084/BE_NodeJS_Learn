@@ -18,11 +18,6 @@ var keysSchema = new mongoose.Schema(
       default: true,
     },
     permission: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
       type: [String],
       required: true,
       enum: ["0000", "0001", "0002"],
