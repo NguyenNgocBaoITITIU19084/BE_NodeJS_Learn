@@ -4,6 +4,14 @@ const { CREATED, SuccessResponse } = require("../cores/success.response");
 const AccessService = require("../services/access.service");
 
 class AccessControllers {
+  handRefeshToken = async (req, res) => {
+    console.log(`::[P]::handRefeshToken::`, req.body);
+    new SuccessResponse({
+      message: "Success Get Token!",
+      metadata: await AccessService.handleRefeshToken(req.body),
+    }).send(res);
+  };
+
   logOut = async (req, res) => {
     console.log(`::[P]::Logout::`, req.keyStore);
     new SuccessResponse({

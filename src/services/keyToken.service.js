@@ -30,6 +30,18 @@ class KeyTokenService {
   static DeleteByUserId = async (userId) => {
     return await keytokenModel.findOneAndDelete({ user: userId });
   };
+
+  static findByRefeshTokenUsed = async (refeshTokensUsed) => {
+    return await keytokenModel.findOne({ refeshTokensUsed }).lean();
+  };
+
+  static findByRefeshToken = async (refeshToken) => {
+    return await keytokenModel.findOne({ refeshToken }).lean();
+  };
+
+  static updateOne = async ({ filter = {}, update = {}, option = {} }) => {
+    return await keytokenModel.updateOne(filter, update, option);
+  };
 }
 
 module.exports = KeyTokenService;

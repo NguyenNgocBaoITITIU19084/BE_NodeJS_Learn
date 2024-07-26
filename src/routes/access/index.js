@@ -16,5 +16,9 @@ router.use(authentication);
 ///////////////////////////
 
 router.post("/shop/logout", asyncHandler(AccessControllers.logOut));
+router.post(
+  "/shop/handRefeshToken",
+  asyncHandler(AccessControllers.handRefeshToken)
+);
 
 module.exports = router;
