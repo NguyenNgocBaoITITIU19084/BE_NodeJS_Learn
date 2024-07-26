@@ -32,9 +32,27 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEyZjgxNWMy
 POST {{url_dev}}/shop/handRefeshToken
 Content-Type: application/json
 x-api-key: baonguyen
-x-client-id: 66a31974abe7c43c74243e45
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEzMTk3NGFiZTdjNDNjNzQyNDNlNDUiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIxOTY0OTc0LCJleHAiOjE3MjIxMzc3NzR9.Wm9Jcgrdx7den_Za56UbNNpZkWVSjaPnenpypVDfMUg
+x-client-id: 66a31ae40e5d5b78e6fd8a58
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEzMWFlNDBlNWQ1Yjc4ZTZmZDhhNTgiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIxOTY1MzM0LCJleHAiOjE3MjIxMzgxMzR9.BzMN_0xGgCcyVX-T24fzOJXrPg80G7E91JMc_V1nrlQ
 
 {
-    "refeshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIxOTY1MDEzLCJleHAiOjE3MjI1Njk4MTN9.5CYrf4x3EslLgYPSgQ64jgMim1xoF6N3955OXgXgNug"
+    "refeshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEzMWFlNDBlNWQ1Yjc4ZTZmZDhhNTgiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIxOTY1MzM0LCJleHAiOjE3MjI1NzAxMzR9._0fg4yV6KOlYT7rL53FC5n0TpnK34yHYrStHMk5zkv4"
+}
+
+###
+POST {{url_dev}}/product/
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a31d140e5d5b78e6fd8a6e
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEzMWQxNDBlNWQ1Yjc4ZTZmZDhhNmUiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIxOTg1MTQ1LCJleHAiOjE3MjIxNTc5NDV9.vJJkZUjO7uJnd0W7yx6vv97veHtNovJbvZ4clbEJTcM
+
+{
+    "product_name": "day chuyen chu dai bi",
+    "product_thumb": "example",
+    "product_description": "day chuyen chu dai bi",
+    "product_price": 2000,
+    "product_quantity": 10,
+    "product_type": "Clothing",
+    "product_shop": "66a31ae40e5d5b78e6fd8a58",
+    "product_attributes": {"brand": "Sxx", "size": "XXL", "material": "String"}
 }
