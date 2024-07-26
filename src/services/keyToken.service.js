@@ -1,6 +1,6 @@
 "use strict";
 
-const keyTokenModel = require("../models/keytoken.model");
+const keytokenModel = require("../models/keytoken.model");
 
 class KeyTokenService {
   static createKeyToken = async ({
@@ -14,13 +14,17 @@ class KeyTokenService {
         update = { publicKey, privateKey, refeshToken, refeshTokensUsed: [] },
         option = { upsert: true, new: true };
 
-      const tokens = await keyTokenModel.findOneAndUpdate(
+      const tokens = await keytokenModel.findOneAndUpdate(
         filter,
         update,
         option
       );
       return tokens ? tokens : null;
     } catch (error) {}
+  };
+
+  static findById = async (userId) => {
+    return await keytokenModel.findOne({ user: userId });
   };
 }
 

@@ -6,6 +6,24 @@ x-api-key: baonguyen
 
 {
     "name": "Bao nguyen",
-    "email" : "example41@gmail.com",
+    "email" : "example123@gmail.com",
     "password" : "123123"
 }
+
+
+###
+POST {{url_dev}}/shop/login
+Content-Type: application/json
+x-api-key: baonguyen
+
+{
+    "email" : "example@gmail.com",
+    "password" : "123123"
+}
+
+###
+POST {{url_dev}}/shop/authen
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a1d7bda42e57abe721b1c5
+authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmExZDdiZGE0MmU1N2FiZTcyMWIxYzUiLCJlbWFpbCI6ImV4YW1wbGU0MUBnbWFpbC5jb20iLCJpYXQiOjE3MjE5NTYwNjIsImV4cCI6MTcyMjEyODg2Mn0.nvp9jCB41Hfi6ATQNS7jFGaELLKjA5ZW2cKBp7XaFJY"

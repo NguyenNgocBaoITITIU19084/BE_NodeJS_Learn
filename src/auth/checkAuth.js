@@ -1,10 +1,19 @@
 "use strict";
 
+const jwt = require("jsonwebtoken");
+
+const {
+  BadRequestError,
+  AuthFailureError,
+} = require("../cores/error.response");
 const { findById } = require("../services/apiKey.service");
+const KeyTokenService = require("../services/keyToken.service");
+const { verifyJWT } = require("../utils");
 
 const HEADER = {
   API_KEY: "x-api-key",
   AUTHORIZATION: "authorization",
+  CLIENT_ID: "x-client-id",
 };
 
 const apiKey = async (req, res, next) => {
@@ -51,9 +60,30 @@ const asyncHandler = (fn) => {
     fn(req, res, next).catch(next);
   };
 };
+const authentication = asyncHandler(async (req, res, next) => {
+  const userId = req.headers[HEADER.CLIENT_ID]?.toString();
+  if (!userId) throw new AuthFailureError("Invalid Request");
 
+  const holderShop = await KeyTokenService.findById(userId);
+  if (!holderShop) throw new AuthFailureError("Unauthorizated");
+
+  const accessToken = req.headers[HEADER.AUTHORIZATION]?.toString();
+  if (!accessToken) throw new AuthFailureError("Inlavid Request");
+
+  try {
+    const decode = jwt.verify(accessToken, holderShop.publicKey);
+    if (decode.userId !== userId) {
+      throw new AuthFailureError("Unauthorizated");
+    }
+    req.user = decode;
+    return next();
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = {
   apiKey,
   permission,
   asyncHandler,
+  authentication,
 };
