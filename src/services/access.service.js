@@ -16,6 +16,10 @@ const {
 const { findByEmail } = require("../services/shop.service");
 
 class AccessService {
+  static logOut = async (keyStore) => {
+    return await KeyTokenService.DeleteByUserId(keyStore.userId);
+  };
+
   static login = async ({ email, password, refeshToken = null }) => {
     const foundShop = await findByEmail({ email });
     if (!foundShop) throw new AuthFailureError("Shop is not registered!");

@@ -2,13 +2,9 @@
 
 const jwt = require("jsonwebtoken");
 
-const {
-  BadRequestError,
-  AuthFailureError,
-} = require("../cores/error.response");
+const { AuthFailureError, NotFoundError } = require("../cores/error.response");
 const { findById } = require("../services/apiKey.service");
 const KeyTokenService = require("../services/keyToken.service");
-const { verifyJWT } = require("../utils");
 
 const HEADER = {
   API_KEY: "x-api-key",
@@ -65,7 +61,7 @@ const authentication = asyncHandler(async (req, res, next) => {
   if (!userId) throw new AuthFailureError("Invalid Request");
 
   const holderShop = await KeyTokenService.findById(userId);
-  if (!holderShop) throw new AuthFailureError("Unauthorizated");
+  if (!holderShop) throw new NotFoundError("Unauthorizated");
 
   const accessToken = req.headers[HEADER.AUTHORIZATION]?.toString();
   if (!accessToken) throw new AuthFailureError("Inlavid Request");
@@ -75,7 +71,7 @@ const authentication = asyncHandler(async (req, res, next) => {
     if (decode.userId !== userId) {
       throw new AuthFailureError("Unauthorizated");
     }
-    req.user = decode;
+    req.keyStore = decode;
     return next();
   } catch (error) {
     console.log(error);

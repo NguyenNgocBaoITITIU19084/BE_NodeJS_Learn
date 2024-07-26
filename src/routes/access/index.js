@@ -15,8 +15,6 @@ router.post("/shop/sign-up", asyncHandler(AccessControllers.signUp));
 router.use(authentication);
 ///////////////////////////
 
-router.post("/shop/authen", (req, res) => {
-  return res.json({ message: "hello" });
-});
+router.post("/shop/logout", asyncHandler(AccessControllers.logOut));
 
 module.exports = router;

@@ -17,13 +17,13 @@ Content-Type: application/json
 x-api-key: baonguyen
 
 {
-    "email" : "example@gmail.com",
+    "email" : "example123@gmail.com",
     "password" : "123123"
 }
 
 ###
-POST {{url_dev}}/shop/authen
+POST {{url_dev}}/shop/logout
 Content-Type: application/json
 x-api-key: baonguyen
-x-client-id: 66a1d7bda42e57abe721b1c5
-authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmExZDdiZGE0MmU1N2FiZTcyMWIxYzUiLCJlbWFpbCI6ImV4YW1wbGU0MUBnbWFpbC5jb20iLCJpYXQiOjE3MjE5NTYwNjIsImV4cCI6MTcyMjEyODg2Mn0.nvp9jCB41Hfi6ATQNS7jFGaELLKjA5ZW2cKBp7XaFJY"
+x-client-id: 66a2f815c2587fef38033194
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEyZjgxNWMyNTg3ZmVmMzgwMzMxOTQiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIxOTU2ODc5LCJleHAiOjE3MjIxMjk2Nzl9.kPNhG_lMGRYIIWGjSjL0ICyzbx7lMq7oQr8TjxknS5g
