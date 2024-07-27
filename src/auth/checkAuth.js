@@ -10,6 +10,7 @@ const HEADER = {
   API_KEY: "x-api-key",
   AUTHORIZATION: "authorization",
   CLIENT_ID: "x-client-id",
+  REFESH_TOKEN: "refesh-token-id",
 };
 
 const apiKey = async (req, res, next) => {
@@ -56,6 +57,7 @@ const asyncHandler = (fn) => {
     fn(req, res, next).catch(next);
   };
 };
+
 const authentication = asyncHandler(async (req, res, next) => {
   const userId = req.headers[HEADER.CLIENT_ID]?.toString();
   if (!userId) throw new AuthFailureError("Invalid Request");
@@ -77,9 +79,58 @@ const authentication = asyncHandler(async (req, res, next) => {
     console.log(error);
   }
 });
+
+const authenticationV2 = asyncHandler(async (req, res, next) => {
+  const userId = req.headers[HEADER.CLIENT_ID]?.toString();
+  if (!userId) throw new AuthFailureError("Invalid Request");
+
+  const holderShop = await KeyTokenService.findById(userId);
+  if (!holderShop) throw new NotFoundError("Unauthorizated");
+  console.log("holderShop", holderShop);
+
+  if (req.headers[HEADER.REFESH_TOKEN]) {
+    console.log("refessssssssss");
+    try {
+      const refeshToken = req.headers[HEADER.REFESH_TOKEN]?.toString();
+      console.log("refeshToken", refeshToken);
+      console.log("holderShop.privateKey", holderShop.privateKey);
+
+      const decode = jwt.verify(refeshToken, holderShop.privateKey);
+      console.log("decode", decode);
+
+      if (decode.userId !== userId) {
+        throw new AuthFailureError("Unauthorizated");
+      }
+
+      req.keyStore = holderShop;
+      req.user = decode;
+      req.refeshToken = refeshToken;
+
+      return next();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // const accessToken = req.headers[HEADER.AUTHORIZATION]?.toString();
+  // if (!accessToken) throw new AuthFailureError("Inlavid Request");
+
+  // try {
+  //   const decode = jwt.verify(accessToken, holderShop.publicKey);
+  //   if (decode.userId !== userId) {
+  //     throw new AuthFailureError("Unauthorizated");
+  //   }
+  //   req.keyStore = holderShop;
+  //   return next();
+  // } catch (error) {
+  //   console.log(error);
+  // }
+});
+
 module.exports = {
   apiKey,
   permission,
   asyncHandler,
   authentication,
+  authenticationV2,
 };

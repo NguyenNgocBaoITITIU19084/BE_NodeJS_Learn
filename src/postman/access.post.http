@@ -32,12 +32,9 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEyZjgxNWMy
 POST {{url_dev}}/shop/handRefeshToken
 Content-Type: application/json
 x-api-key: baonguyen
-x-client-id: 66a31ae40e5d5b78e6fd8a58
+x-client-id: 66a31d140e5d5b78e6fd8a6e
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEzMWFlNDBlNWQ1Yjc4ZTZmZDhhNTgiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIxOTY1MzM0LCJleHAiOjE3MjIxMzgxMzR9.BzMN_0xGgCcyVX-T24fzOJXrPg80G7E91JMc_V1nrlQ
-
-{
-    "refeshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEzMWFlNDBlNWQ1Yjc4ZTZmZDhhNTgiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIxOTY1MzM0LCJleHAiOjE3MjI1NzAxMzR9._0fg4yV6KOlYT7rL53FC5n0TpnK34yHYrStHMk5zkv4"
-}
+refesh-token-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEzMWQxNDBlNWQ1Yjc4ZTZmZDhhNmUiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyMDQ4MjQ2LCJleHAiOjE3MjI2NTMwNDZ9.arTqv0HfULJ7T5V_J12YnNEYpQXy_NUjyTO1dNbuISU
 
 ###
 POST {{url_dev}}/product/

@@ -22,6 +22,34 @@ const {
 const { findByEmail } = require("../services/shop.service");
 
 class AccessService {
+  static handleRefeshTokenV2 = async ({ keyStore, user, refeshToken }) => {
+    const { userId, email } = user;
+
+    if (keyStore.refeshTokensUsed.includes(refeshToken)) {
+      await KeyTokenService.DeleteByUserId(userId);
+      throw new ForbiddenError("Someone know your account! Pls re-login!");
+    }
+
+    if (keyStore.refeshToken !== refeshToken)
+      throw new AuthFailureError("Shop is not existed");
+
+    const newTokens = await createTokenPair(
+      { userId, email },
+      keyStore.publicKey,
+      keyStore.privateKey
+    );
+
+    await KeyTokenService.updateOne({
+      filter: { refeshToken },
+      update: {
+        $set: { refeshToken: newTokens.refeshToken },
+        $addToSet: { refeshTokensUsed: refeshToken },
+      },
+    });
+
+    return { user: { userId, email }, newTokens };
+  };
+
   static handleRefeshToken = async ({ refeshToken }) => {
     // checking refeshToken used or not ?
     const foundRefeshToken = await KeyTokenService.findByRefeshTokenUsed(
