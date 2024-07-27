@@ -4,6 +4,7 @@
 
 const { CREATED, SuccessResponse } = require("../cores/success.response");
 const ProductService = require("../services/product.service");
+const ProductServiceV2 = require("../services/product.service.stategy");
 
 class ProductController {
   createProduct = async (req, res) => {
@@ -14,6 +15,20 @@ class ProductController {
     new CREATED({
       message: "Success Create Product!",
       metadata: await ProductService.createProduct(req.body.product_type, {
+        ...req.body,
+        product_shop: req.keyStore.user,
+      }),
+    }).send(res);
+  };
+
+  createProductV2 = async (req, res) => {
+    console.log(`::[P]::createProductV2::`, req.body.product_type, {
+      ...req.body,
+      product_shop: req.keyStore.user,
+    });
+    new CREATED({
+      message: "Success Create ProductV2!",
+      metadata: await ProductServiceV2.createProduct(req.body.product_type, {
         ...req.body,
         product_shop: req.keyStore.user,
       }),
