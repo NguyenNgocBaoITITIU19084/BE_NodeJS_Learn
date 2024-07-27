@@ -9,14 +9,14 @@ class ProductController {
   createProduct = async (req, res) => {
     console.log(`::[P]::createProduct::`, req.body.product_type, {
       ...req.body,
-      product_shop: req.keyStore.userId,
+      product_shop: req.keyStore.user,
     });
     new CREATED({
       message: "Success Create Product!",
-      metadata: await ProductService.createProduct(
-        req.body.product_type,
-        req.body
-      ),
+      metadata: await ProductService.createProduct(req.body.product_type, {
+        ...req.body,
+        product_shop: req.keyStore.user,
+      }),
     }).send(res);
   };
 }
