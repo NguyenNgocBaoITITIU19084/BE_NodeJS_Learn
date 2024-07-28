@@ -1,6 +1,7 @@
 "use strict";
 
 const mongoose = require("mongoose"); // Erase if already required
+const { default: slugify } = require("slugify");
 
 const DOCUMENT_NAME = "product";
 const COLLECTION_NAME = "products";
@@ -37,6 +38,26 @@ var productSchema = new mongoose.Schema(
       required: true,
       ref: "Shop",
     },
+    isDaft: {
+      type: Boolean,
+      default: true,
+      index: true,
+      select: false,
+    },
+    isPublic: {
+      type: Boolean,
+      default: false,
+      index: true,
+      select: false,
+    },
+    product_ratingAverage: {
+      type: Number,
+      default: 4.5,
+      min: [1, "Rating must be above 1.0"],
+      max: [5, "Rating must be above 5.0"],
+    },
+    product_variations: { type: Array, default: [] },
+    product_slug: String,
     product_attributes: {
       type: mongoose.Schema.Types.Mixed,
       required: true,
@@ -47,6 +68,13 @@ var productSchema = new mongoose.Schema(
     collection: COLLECTION_NAME,
   }
 );
+
+// middlware of schema
+productSchema.pre("save", function (next) {
+  this.product_slug = slugify(this.product_name, { lower: true });
+});
+
+// Define a sub class of product
 
 const clothingSchema = new mongoose.Schema(
   {
