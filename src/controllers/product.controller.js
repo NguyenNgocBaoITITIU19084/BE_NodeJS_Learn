@@ -34,6 +34,32 @@ class ProductController {
       }),
     }).send(res);
   };
+
+  getAllDaftsForShop = async (req, res) => {
+    console.log(`::[P]::getAllDaftsForShop::`, {
+      product_shop: req.keyStore.user,
+    });
+    new SuccessResponse({
+      message: "Get list Dafts success!",
+      metadata: await ProductServiceV2.findAllDraftsForShop({
+        product_shop: req.keyStore.user,
+      }),
+    }).send(res);
+  };
+
+  publicProductForShop = async (req, res) => {
+    console.log(`::[P]::publicProductForShop::`, {
+      product_id: req.params.id,
+      product_shop: req.keyStore.user,
+    });
+    new SuccessResponse({
+      message: "Success Public Product!",
+      metadata: await ProductServiceV2.publicProductForShop({
+        product_id: req.params.id,
+        product_shop: req.keyStore.user,
+      }),
+    }).send(res);
+  };
 }
 
 module.exports = new ProductController();

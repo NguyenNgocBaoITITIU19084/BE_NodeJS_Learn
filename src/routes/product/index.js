@@ -12,6 +12,8 @@ const router = express.Router();
 router.use(authenticationV2);
 ///////////////////////////
 
-router.post("", asyncHandler(ProductController.createProduct));
+router.post("", asyncHandler(ProductController.createProductV2));
+router.get("/draft/all", asyncHandler(ProductController.getAllDaftsForShop));
+router.get("/public/:id", asyncHandler(ProductController.publicProductForShop));
 
 module.exports = router;

@@ -38,7 +38,7 @@ var productSchema = new mongoose.Schema(
       required: true,
       ref: "Shop",
     },
-    isDaft: {
+    isDraft: {
       type: Boolean,
       default: true,
       index: true,
@@ -72,6 +72,7 @@ var productSchema = new mongoose.Schema(
 // middlware of schema
 productSchema.pre("save", function (next) {
   this.product_slug = slugify(this.product_name, { lower: true });
+  next();
 });
 
 // Define a sub class of product

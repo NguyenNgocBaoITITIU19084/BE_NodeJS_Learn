@@ -7,6 +7,10 @@ const {
   furniture,
 } = require("../models/product.model");
 const { BadRequestError } = require("../cores/error.response");
+const {
+  findAllDraftsForShop,
+  publicProductByShop,
+} = require("../models/repositories/product.repo");
 
 // define the Factory class to create product
 class ProductFactory {
@@ -28,6 +32,28 @@ class ProductFactory {
 
     return new productClass(payload).createProduct();
   }
+
+  // Query //
+
+  static findAllDraftsForShop = async ({
+    product_shop,
+    skip = 0,
+    limit = 50,
+  }) => {
+    const query = { product_shop, isDraft: true };
+    return await findAllDraftsForShop({ query, skip, limit });
+  };
+
+  /////////////////////////////////////////////////
+
+  static publicProductForShop = async ({
+    product_shop,
+    product_id,
+    skip = 0,
+    limit = 50,
+  }) => {
+    return await publicProductByShop({ product_shop, product_id });
+  };
 }
 
 //define the base class of product
@@ -52,6 +78,7 @@ class Product {
     this.product_attributes = product_attributes;
   }
   async createProduct(product_id) {
+    console.log("-------------product", this);
     return await product.create({ ...this, _id: product_id });
   }
 }
@@ -59,6 +86,7 @@ class Product {
 //define the sub class for different product type
 class Clothing extends Product {
   async createProduct() {
+    console.log("-------------clothing", this);
     const newClothing = await clothing.create({
       ...this.product_attributes,
       product_shop: this.product_shop,
