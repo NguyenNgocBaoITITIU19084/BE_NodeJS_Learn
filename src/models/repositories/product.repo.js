@@ -8,6 +8,7 @@ const {
   product,
   electronic,
 } = require("../../models/product.model");
+const { getSelectData } = require("../../utils/index");
 
 const searchPublicProductsByUser = async ({ keySearch }) => {
   const keySearchRegex = new RegExp(keySearch);
@@ -22,6 +23,20 @@ const searchPublicProductsByUser = async ({ keySearch }) => {
     .sort({ score: { $meta: "textScore" } })
     .lean();
   return results;
+};
+
+const findAllProducts = async ({ limit, sort, page, filter, select }) => {
+  const skip = (page - 1) * limit;
+  const sortBy = sort === "ctime" ? { _id: -1 } : { _id: 1 };
+  const products = await product
+    .find(filter)
+    .sort(sortBy)
+    .skip(skip)
+    .limit(limit)
+    .select(getSelectData(select))
+    .lean();
+
+  return products;
 };
 
 const findAllDraftsForShop = async ({ query, skip, limit }) => {
@@ -67,4 +82,5 @@ module.exports = {
   findAllPublicProductsForShop,
   unPublicProductByShop,
   searchPublicProductsByUser,
+  findAllProducts,
 };

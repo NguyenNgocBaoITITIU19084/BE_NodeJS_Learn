@@ -13,6 +13,7 @@ const {
   findAllPublicProductsForShop,
   unPublicProductByShop,
   searchPublicProductsByUser,
+  findAllProducts,
 } = require("../models/repositories/product.repo");
 
 // define the Factory class to create product
@@ -58,6 +59,21 @@ class ProductFactory {
 
   static findAllPublicProductForUser = async ({ keySearch }) => {
     return await searchPublicProductsByUser({ keySearch });
+  };
+
+  static findAllProducts = async ({
+    limit = 50,
+    sort = "ctime",
+    page = 1,
+    filter = { isPublic: true },
+  }) => {
+    return findAllProducts({
+      limit,
+      sort,
+      page,
+      filter,
+      select: ["product_name", "product_thumb", "product_price"],
+    });
   };
 
   /////////////////////////////////////////////////

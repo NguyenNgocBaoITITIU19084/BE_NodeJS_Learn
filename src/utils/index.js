@@ -18,4 +18,15 @@ const genPublicAndPrivateKey = () => {
 const verifyJWT = (token, key) => {
   return jwt.verify(token, key);
 };
-module.exports = { getInfoData, genPublicAndPrivateKey, verifyJWT };
+
+// [a,b,c] => {a: 1, b:1, c:1}
+const getSelectData = (select = []) => {
+  return Object.fromEntries(select.map((el) => [el, 1]));
+};
+
+module.exports = {
+  getInfoData,
+  genPublicAndPrivateKey,
+  verifyJWT,
+  getSelectData,
+};
