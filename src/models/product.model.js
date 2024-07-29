@@ -75,6 +75,9 @@ productSchema.pre("save", function (next) {
   next();
 });
 
+// create index
+productSchema.index({ product_name: "text", product_description: "text" });
+
 // Define a sub class of product
 
 const clothingSchema = new mongoose.Schema(

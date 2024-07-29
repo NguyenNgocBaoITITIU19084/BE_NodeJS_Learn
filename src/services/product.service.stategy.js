@@ -10,6 +10,9 @@ const { BadRequestError } = require("../cores/error.response");
 const {
   findAllDraftsForShop,
   publicProductByShop,
+  findAllPublicProductsForShop,
+  unPublicProductByShop,
+  searchPublicProductsByUser,
 } = require("../models/repositories/product.repo");
 
 // define the Factory class to create product
@@ -40,8 +43,21 @@ class ProductFactory {
     skip = 0,
     limit = 50,
   }) => {
-    const query = { product_shop, isDraft: true };
+    const query = { product_shop, isDraft: true, isPublic: false };
     return await findAllDraftsForShop({ query, skip, limit });
+  };
+
+  static findAllPublicProductsForShop = async ({
+    product_shop,
+    skip = 0,
+    limit = 50,
+  }) => {
+    const query = { product_shop, isDraft: false, isPublic: true };
+    return await findAllPublicProductsForShop({ query, skip, limit });
+  };
+
+  static findAllPublicProductForUser = async ({ keySearch }) => {
+    return await searchPublicProductsByUser({ keySearch });
   };
 
   /////////////////////////////////////////////////
@@ -53,6 +69,15 @@ class ProductFactory {
     limit = 50,
   }) => {
     return await publicProductByShop({ product_shop, product_id });
+  };
+
+  static unPublicProductForShop = async ({
+    product_shop,
+    product_id,
+    skip = 0,
+    limit = 50,
+  }) => {
+    return await unPublicProductByShop({ product_shop, product_id });
   };
 }
 

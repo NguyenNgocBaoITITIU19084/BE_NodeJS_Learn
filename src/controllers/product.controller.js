@@ -47,6 +47,18 @@ class ProductController {
     }).send(res);
   };
 
+  getAllPublicProductsForShop = async (req, res) => {
+    console.log(`::[P]::getAllPublicProductsForShop::`, {
+      product_shop: req.keyStore.user,
+    });
+    new SuccessResponse({
+      message: "Get list Public Products success!",
+      metadata: await ProductServiceV2.findAllPublicProductsForShop({
+        product_shop: req.keyStore.user,
+      }),
+    }).send(res);
+  };
+
   publicProductForShop = async (req, res) => {
     console.log(`::[P]::publicProductForShop::`, {
       product_id: req.params.id,
@@ -58,6 +70,28 @@ class ProductController {
         product_id: req.params.id,
         product_shop: req.keyStore.user,
       }),
+    }).send(res);
+  };
+
+  unPublicProductForShop = async (req, res) => {
+    console.log(`::[P]::unPublicProductForShop::`, {
+      product_id: req.params.id,
+      product_shop: req.keyStore.user,
+    });
+    new SuccessResponse({
+      message: "Success unPublic Product!",
+      metadata: await ProductServiceV2.unPublicProductForShop({
+        product_id: req.params.id,
+        product_shop: req.keyStore.user,
+      }),
+    }).send(res);
+  };
+
+  getListSearchProducts = async (req, res) => {
+    console.log(`::[P]::getListSearchProducts::`, req.params);
+    new SuccessResponse({
+      message: "Success Search Public Product!",
+      metadata: await ProductServiceV2.findAllPublicProductForUser(req.params),
     }).send(res);
   };
 }

@@ -61,19 +61,32 @@ x-api-key: baonguyen
 x-client-id: 66a5b830837f0697ccebba73
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyMTM2NjI0LCJleHAiOjE3MjIzMDk0MjR9.4vaq8lvm_087ulyFiuUK3_GsmHVCUGtj5nMKmbC95WA
 
-{
-    "product_name": "Sh model 12 2002",
-    "product_thumb": "example",
-    "product_description": "day chuyen chu dai bi",
-    "product_price": 2000,
-    "product_quantity": 10,
-    "product_type": "Clothing",
-    "product_shop": "66a31ae40e5d5b78e6fd8a58",
-    "product_attributes": {"manufactuer": "Sxx", "size": "XXL", "material": "String"}
-}
 
 ###
-GET {{url_dev}}/product/public/66a5bfcfe7aea184f1184c16
+GET {{url_dev}}/product/public/all
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a5b830837f0697ccebba73
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyMTM2NjI0LCJleHAiOjE3MjIzMDk0MjR9.4vaq8lvm_087ulyFiuUK3_GsmHVCUGtj5nMKmbC95WA
+
+
+###
+PATCH {{url_dev}}/product/public/66a5bfcfe7aea184f1184c16
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a5b830837f0697ccebba73
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyMTM2NjI0LCJleHAiOjE3MjIzMDk0MjR9.4vaq8lvm_087ulyFiuUK3_GsmHVCUGtj5nMKmbC95WA
+
+
+###
+PATCH {{url_dev}}/product/un-public/66a5bfcfe7aea184f1184c16
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a5b830837f0697ccebba73
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyMTM2NjI0LCJleHAiOjE3MjIzMDk0MjR9.4vaq8lvm_087ulyFiuUK3_GsmHVCUGtj5nMKmbC95WA
+
+###
+GET {{url_dev}}/product/search/Sh model
 Content-Type: application/json
 x-api-key: baonguyen
 x-client-id: 66a5b830837f0697ccebba73

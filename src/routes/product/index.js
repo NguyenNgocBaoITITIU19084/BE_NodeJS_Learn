@@ -8,12 +8,36 @@ const { authentication } = require("../../auth/checkAuth");
 
 const router = express.Router();
 
+router.get(
+  "/search/:keySearch",
+  asyncHandler(ProductController.getListSearchProducts)
+);
+
 // authentication
 router.use(authenticationV2);
 ///////////////////////////
 
 router.post("", asyncHandler(ProductController.createProductV2));
+
+// QUERY //
 router.get("/draft/all", asyncHandler(ProductController.getAllDaftsForShop));
-router.get("/public/:id", asyncHandler(ProductController.publicProductForShop));
+router.get(
+  "/public/all",
+  asyncHandler(ProductController.getAllPublicProductsForShop)
+);
+
+// //////////////////////
+
+// PATCH
+router.patch(
+  "/public/:id",
+  asyncHandler(ProductController.publicProductForShop)
+);
+
+router.patch(
+  "/un-public/:id",
+  asyncHandler(ProductController.unPublicProductForShop)
+);
+////////////////////
 
 module.exports = router;
