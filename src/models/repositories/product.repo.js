@@ -8,7 +8,7 @@ const {
   product,
   electronic,
 } = require("../../models/product.model");
-const { getSelectData } = require("../../utils/index");
+const { getSelectData, unGetSelectData } = require("../../utils/index");
 
 const searchPublicProductsByUser = async ({ keySearch }) => {
   const keySearchRegex = new RegExp(keySearch);
@@ -37,6 +37,13 @@ const findAllProducts = async ({ limit, sort, page, filter, select }) => {
     .lean();
 
   return products;
+};
+
+const findProduct = async ({ product_id, unSelect }) => {
+  return await product
+    .findOne({ _id: product_id })
+    .select(unGetSelectData(unSelect))
+    .lean();
 };
 
 const findAllDraftsForShop = async ({ query, skip, limit }) => {
@@ -83,4 +90,5 @@ module.exports = {
   unPublicProductByShop,
   searchPublicProductsByUser,
   findAllProducts,
+  findProduct,
 };

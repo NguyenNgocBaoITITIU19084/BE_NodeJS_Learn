@@ -24,9 +24,15 @@ const getSelectData = (select = []) => {
   return Object.fromEntries(select.map((el) => [el, 1]));
 };
 
+// [a,b,c] => {a: 0, b:0, c:0}
+const unGetSelectData = (select = []) => {
+  return Object.fromEntries(select.map((el) => [el, 0]));
+};
+
 module.exports = {
   getInfoData,
   genPublicAndPrivateKey,
   verifyJWT,
   getSelectData,
+  unGetSelectData,
 };
