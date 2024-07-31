@@ -99,3 +99,26 @@ Content-Type: application/json
 x-api-key: baonguyen
 x-client-id: 66a5b830837f0697ccebba73
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyMTM2NjI0LCJleHAiOjE3MjIzMDk0MjR9.4vaq8lvm_087ulyFiuUK3_GsmHVCUGtj5nMKmbC95WA
+
+### Get List Public Product by User
+GET {{url_dev}}/product/66a5bfcfe7aea184f1184c16
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a5b830837f0697ccebba73
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyMTM2NjI0LCJleHAiOjE3MjIzMDk0MjR9.4vaq8lvm_087ulyFiuUK3_GsmHVCUGtj5nMKmbC95WA
+
+
+### update Product
+PATCH {{url_dev}}/product/66a5bfcfe7aea184f1184c16
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a5b830837f0697ccebba73
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyMzk1NDM2LCJleHAiOjE3MjI1NjgyMzZ9.xorQokMoN7K-hYmLW16Gbe0XUnlY3WG31zgAfGt79S4
+
+{
+    "product_type" : "Clothing",
+    "product_name": "day chuyen be ngan tang",
+    "product_description": "day chuyen chu dai bi",
+    "product_price": 2000,
+    "product_attributes": {"brand": "Sxx", "size": "2XXL", "material": "String"}
+}

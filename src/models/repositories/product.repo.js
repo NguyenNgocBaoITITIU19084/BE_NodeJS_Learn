@@ -65,6 +65,15 @@ const queryProduct = async ({ query, skip, limit }) => {
     .exec();
 };
 
+const updateProductById = async ({
+  productId,
+  bodyUpdate,
+  model,
+  isNew = true,
+}) => {
+  return await model.findByIdAndUpdate(productId, bodyUpdate, { new: isNew });
+};
+
 const publicProductByShop = async ({ product_shop, product_id }) => {
   const filter = { product_shop: product_shop, _id: product_id };
   const update = { $set: { isDraft: false, isPublic: true } };
@@ -91,4 +100,5 @@ module.exports = {
   searchPublicProductsByUser,
   findAllProducts,
   findProduct,
+  updateProductById,
 };

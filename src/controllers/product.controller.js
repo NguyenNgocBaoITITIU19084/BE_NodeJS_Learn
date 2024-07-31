@@ -112,6 +112,29 @@ class ProductController {
       }),
     }).send(res);
   };
+
+  updateProduct = async (req, res) => {
+    console.log(
+      `::[P]::updateProduct::`,
+      req.body.product_type,
+      req.params.productId,
+      {
+        ...req.body,
+        product_shop: req.keyStore.user,
+      }
+    );
+    new SuccessResponse({
+      message: "Success updateProduct!",
+      metadata: await ProductServiceV2.updateProduct(
+        req.body.product_type,
+        req.params.productId,
+        {
+          ...req.body,
+          product_shop: req.keyStore.user,
+        }
+      ),
+    }).send(res);
+  };
 }
 
 module.exports = new ProductController();

@@ -18,8 +18,8 @@ router.get("/:product_id", asyncHandler(ProductController.findProduct));
 // authentication
 router.use(authenticationV2);
 ///////////////////////////
-
 router.post("", asyncHandler(ProductController.createProductV2));
+router.patch("/:productId", asyncHandler(ProductController.updateProduct));
 
 // QUERY //
 router.get("/draft/all", asyncHandler(ProductController.getAllDaftsForShop));

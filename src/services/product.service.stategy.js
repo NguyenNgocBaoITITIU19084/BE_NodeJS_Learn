@@ -15,6 +15,7 @@ const {
   searchPublicProductsByUser,
   findAllProducts,
   findProduct,
+  updateProductById,
 } = require("../models/repositories/product.repo");
 
 // define the Factory class to create product
@@ -36,6 +37,14 @@ class ProductFactory {
       throw new BadRequestError("Invalid Product Types::", type);
 
     return new productClass(payload).createProduct();
+  }
+
+  static async updateProduct(type, productId, payload) {
+    const productClass = ProductFactory.ProductRegister_Stategy[type];
+    if (!productClass)
+      throw new BadRequestError("Invalid Product Types::", type);
+
+    return new productClass(payload).updateProduct(productId);
   }
 
   // Query //
@@ -123,9 +132,13 @@ class Product {
     this.product_shop = product_shop;
     this.product_attributes = product_attributes;
   }
+
   async createProduct(product_id) {
-    console.log("-------------product", this);
     return await product.create({ ...this, _id: product_id });
+  }
+
+  async updateProduct(productId, bodyUpdate) {
+    return await updateProductById({ productId, bodyUpdate, model: product });
   }
 }
 
@@ -143,6 +156,32 @@ class Clothing extends Product {
     if (!newProduct) throw new BadRequestError("Create New Product Error");
 
     return newProduct;
+  }
+
+  async updateProduct(productId) {
+    /*
+      {
+        a: null,
+        b: undefine
+      }
+    */
+
+    // 1 loai bo cac gia tri null
+    // 2 check xem can phai update o dau
+    const objectParams = this;
+
+    if (objectParams.product_attributes) {
+      // update child
+      console.log("objectParams", objectParams);
+      await updateProductById({
+        productId,
+        bodyUpdate: objectParams.product_attributes,
+        model: clothing,
+      });
+    }
+
+    const updateProduct = await super.updateProduct(productId, objectParams);
+    return updateProduct;
   }
 }
 
