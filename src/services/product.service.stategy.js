@@ -17,6 +17,7 @@ const {
   findProduct,
   updateProductById,
 } = require("../models/repositories/product.repo");
+const { cleanNestedObjectParser } = require("../utils");
 
 // define the Factory class to create product
 class ProductFactory {
@@ -175,12 +176,15 @@ class Clothing extends Product {
       console.log("objectParams", objectParams);
       await updateProductById({
         productId,
-        bodyUpdate: objectParams.product_attributes,
+        bodyUpdate: cleanNestedObjectParser(objectParams.product_attributes),
         model: clothing,
       });
     }
 
-    const updateProduct = await super.updateProduct(productId, objectParams);
+    const updateProduct = await super.updateProduct(
+      productId,
+      cleanNestedObjectParser(objectParams)
+    );
     return updateProduct;
   }
 }

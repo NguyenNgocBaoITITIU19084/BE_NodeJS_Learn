@@ -29,10 +29,47 @@ const unGetSelectData = (select = []) => {
   return Object.fromEntries(select.map((el) => [el, 0]));
 };
 
+const removeUndefinedObject = (obj) => {
+  Object.keys(obj).forEach((k) => {
+    if (obj[k] === null) {
+      delete obj[k];
+    }
+  });
+};
+
+const cleanNestedObjectParser = (object) => {
+  console.log("[1::]", object);
+  /**
+   * @k : stand for key
+   * @v : stand for value
+   */
+  Object.entries(object).forEach(([k, v]) => {
+    if (v && typeof v === "object") {
+      cleanNestedObjectParser(v);
+    }
+    if (
+      (v && typeof v === "object" && !Object.keys(v).length) ||
+      v === null ||
+      v === undefined ||
+      v.length === 0
+    ) {
+      if (Array.isArray(object)) {
+        object.splice(k, 1);
+      } else {
+        delete object[k];
+      }
+    }
+  });
+  console.log("[2::]", object);
+  return object;
+};
+
 module.exports = {
   getInfoData,
   genPublicAndPrivateKey,
   verifyJWT,
   getSelectData,
   unGetSelectData,
+  removeUndefinedObject,
+  cleanNestedObjectParser,
 };

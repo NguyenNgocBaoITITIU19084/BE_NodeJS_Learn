@@ -120,5 +120,5 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgz
     "product_name": "day chuyen be ngan tang",
     "product_description": "day chuyen chu dai bi",
     "product_price": 2000,
-    "product_attributes": {"brand": "Sxx", "size": "2XXL", "material": "String"}
+    "product_attributes": {"brand": "sliverMeowww", "size": null, "material": ""}
 }
