@@ -13,16 +13,16 @@ var userSchema = new mongoose.Schema(
     discount_type: {
       type: String,
       require: true,
-      enum: ["fixed_amount", "percented"],
+      enum: ["fixed_amount", "percented"], // choose type of discount
     },
-    discount_value: { type: Number, require: true },
-    discount_code: { type: String, require: true },
+    discount_value: { type: Number, require: true }, // 10.000 VND or 20%
+    discount_code: { type: String, require: true }, // discount Code
     discount_start_date: { type: Date, require: true },
     discount_end_date: { type: Date, require: true },
-    discount_max_uses: { type: Number, require: true },
-    discont_used_count: { type: Number, require: true },
-    discount_user_used: { type: Array, default: [] },
-    discount_max_per_users: { type: Number, require: true },
+    discount_max_uses: { type: Number, require: true }, // number of available discount
+    discont_used_count: { type: Number, default: 0 }, // number of used discount
+    discount_user_used: { type: Array, default: [] }, // person who use discount
+    discount_max_per_users: { type: Number, require: true }, // used times for each person
     discount_min_order_value: { type: Number, require: true },
     discount_shopId: { type: mongoose.Schema.Types.ObjectId, require: true },
 

@@ -3,6 +3,9 @@
 const _ = require("lodash");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const { Types } = require("mongoose");
+
+const convertToObjectIdMongoose = (id) => Types.ObjectId(id);
 
 const getInfoData = ({ fields = [], object = {} }) => {
   return _.pick(object, fields);
@@ -72,4 +75,5 @@ module.exports = {
   unGetSelectData,
   removeUndefinedObject,
   cleanNestedObjectParser,
+  convertToObjectIdMongoose,
 };
