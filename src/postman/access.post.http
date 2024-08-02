@@ -41,7 +41,7 @@ POST {{url_dev}}/product/
 Content-Type: application/json
 x-api-key: baonguyen
 x-client-id: 66a5b830837f0697ccebba73
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyMTM2NjI0LCJleHAiOjE3MjIzMDk0MjR9.4vaq8lvm_087ulyFiuUK3_GsmHVCUGtj5nMKmbC95WA
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyNTY4NDAwLCJleHAiOjE3MjI3NDEyMDB9.St_IBJLrxcuhPEf44hsfm-6C01U2SyLBTRnD1crwbxU
 
 {
     "product_name": "macbook 2024 version black titan 64GB",
