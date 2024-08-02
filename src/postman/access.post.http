@@ -26,7 +26,7 @@ POST {{url_dev}}/shop/logout
 Content-Type: application/json
 x-api-key: baonguyen
 x-client-id: 66a2f815c2587fef38033194
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmEyZjgxNWMyNTg3ZmVmMzgwMzMxOTQiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIxOTU4MjQ1LCJleHAiOjE3MjIxMzEwNDV9.7mo_js6-0kuHawDtI8wb_8_ccgz8bqY4Lgw5hu9aNUQ
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyNTY4NDAwLCJleHAiOjE3MjI3NDEyMDB9.St_IBJLrxcuhPEf44hsfm-6C01U2SyLBTRnD1crwbxU
 
 ###
 POST {{url_dev}}/shop/handRefeshToken
@@ -44,7 +44,7 @@ x-client-id: 66a5b830837f0697ccebba73
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyMTM2NjI0LCJleHAiOjE3MjIzMDk0MjR9.4vaq8lvm_087ulyFiuUK3_GsmHVCUGtj5nMKmbC95WA
 
 {
-    "product_name": "Sh model 12 2002",
+    "product_name": "macbook 2024 version black titan 64GB",
     "product_thumb": "example",
     "product_description": "day chuyen chu dai bi",
     "product_price": 2000,
@@ -117,8 +117,8 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgz
 
 {
     "product_type" : "Clothing",
-    "product_name": "day chuyen be ngan tang",
-    "product_description": "day chuyen chu dai bi",
+    "product_name": "",
+    "product_description": [],
     "product_price": 2000,
-    "product_attributes": {"brand": "sliverMeowww", "size": null, "material": ""}
+    "product_attributes": {"brand": {}, "size": null, "material": ""}
 }
