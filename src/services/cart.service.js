@@ -10,6 +10,7 @@ const {
 } = require("../models/repositories/cart.repo");
 
 const { findProduct } = require("../models/repositories/product.repo");
+const { convertToObjectIdMongoose } = require("../utils");
 
 /**
  * main features: Cart Service
@@ -90,16 +91,19 @@ class CartService {
    *
    */
 
-  static updateQuantityCart = async ({ userId, shop_order_ids = {} }) => {
+  static updateQuantityCart = async (userId, body = {}) => {
+    const { shop_id } = body?.shop_order_ids[0];
     const { quantity, old_quantity, product_id } =
-      shop_order_ids[0]?.item_products[0];
+      body?.shop_order_ids[0]?.item_products[0];
 
     const foundProduct = await findProduct({ product_id, unSelect: ["__v"] });
     if (!foundProduct && !foundProduct?.isPublic)
-      throw new NotFoundError("Product is not existed!");
+      throw new NotFoundError("Product is not existed! 1");
 
-    if (foundProduct.product_shop !== shop_order_ids[0]?.shop_id)
-      throw new NotFoundError("Product is not existed!");
+    console.log(foundProduct.product_shop, convertToObjectIdMongoose(shop_id));
+
+    if (foundProduct.product_shop?.toString() !== shop_id)
+      throw new NotFoundError("Product is not existed! 2");
 
     if (quantity === 0) {
       // delete product in cart

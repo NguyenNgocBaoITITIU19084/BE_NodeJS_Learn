@@ -2,6 +2,8 @@
 @Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTI2MDIxLCJleHAiOjE3MjMwOTg4MjF9.JNvMUuW__mydvxNH6lMVXCGEa_sjVJCrgeNWgIzD3pU
 @ApiKey=baonguyen
 @ClientId=66a5b830837f0697ccebba73
+
+
 ### Add product to cart
 POST {{url_dev}}/cart/
 Content-Type: application/json
@@ -31,6 +33,9 @@ x-api-key: {{ApiKey}}
 x-client-id: {{ClientId}}
 authorization:{{Authorization}}
 
+{
+    "product_id": "66b1c3e47b7e4a56e762a4ec"
+}
 
 ### update product quantity in cart
 PATCH {{url_dev}}/cart/update-quantity
@@ -42,17 +47,17 @@ authorization:{{Authorization}}
 {
     "shop_order_ids": [
         {
-            "shop_id": "",
+            "shop_id": "66a5b830837f0697ccebba73",
             "item_products": [
                 {
                     "quantity": 2,
                     "price": 200,
                     "old_quantity": 10,
-                    "shopId": "",
-                    "product_id": ""
+                    "shopId": "66a5b830837f0697ccebba73",
+                    "product_id": "66b1c3e47b7e4a56e762a4ec"
                 }
             ],
-            "version"
-        },
+            "version": "12"
+        }
     ]
 }

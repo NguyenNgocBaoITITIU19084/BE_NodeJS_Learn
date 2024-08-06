@@ -16,15 +16,14 @@ class CartController {
   };
 
   updateQuantityProductInCart = async (req, res) => {
-    console.log(`::[P]::updateQuantityProductInCart::`, req.user.userId, {
-      product: req.body,
-    });
+    console.log(
+      `::[P]::updateQuantityProductInCart::`,
+      req.user.userId,
+      req.body
+    );
     new CREATED({
       message: "Success updateQuantityProductInCart!",
-      metadata: await CartService.updateQuantityCart({
-        userId: req.user.userId,
-        shop_order_ids: req.body,
-      }),
+      metadata: await CartService.updateQuantityCart(req.user.userId, req.body),
     }).send(res);
   };
 
