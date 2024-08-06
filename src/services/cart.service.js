@@ -32,10 +32,28 @@ class CartService {
     const filter = { cart_userId: userId, cart_state: "active" };
     const model = cartModel;
     const foundCart = await findOneCart({ filter, model });
+    console.log("foundCart", foundCart);
 
     if (!foundCart || !foundCart.cart_products.length) {
       // create new cart for user
       return await createUserCart({ userId, product });
+    }
+
+    const { cart_products } = foundCart;
+    const isExistedItem = cart_products.filter(
+      (item) => item.product_id === product_id
+    );
+    console.log("isExistedItem", isExistedItem);
+    if (!isExistedItem.length) {
+      return await findCartAndUpdate({
+        filter: {
+          cart_userId: userId,
+          cart_state: "active",
+        },
+        update: {
+          $addToSet: { cart_products: product },
+        },
+      });
     }
 
     const isCartContain = await findCartAndUpdate({

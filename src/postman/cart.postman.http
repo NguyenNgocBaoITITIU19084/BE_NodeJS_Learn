@@ -6,12 +6,12 @@ POST {{url_dev}}/cart/
 Content-Type: application/json
 x-api-key: baonguyen
 x-client-id: 66a5b830837f0697ccebba73
-authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTEzNTcwLCJleHAiOjE3MjMwODYzNzB9.5zJ86xzqyQUN5YUP0DhBHWvLBCiFezBY2j2uuXuggHk
+authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTI2MDIxLCJleHAiOjE3MjMwOTg4MjF9.JNvMUuW__mydvxNH6lMVXCGEa_sjVJCrgeNWgIzD3pU
 
 {
-    "product_id" : "66a5bfcfe7aea184f1184c16",
+    "product_id" : "66b1c3e47b7e4a56e762a4ec",
     "product_price": 2000,
-    "cart_quantity": 10,
+    "cart_quantity": 1,
     "shop_id": "66a5b830837f0697ccebba73"
 }
 
@@ -25,7 +25,7 @@ authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN
 
 
 ### delete item in cart by product id [user]
-GET {{url_dev}}/cart/
+DELETE  {{url_dev}}/cart/
 Content-Type: application/json
 x-api-key: baonguyen
 x-client-id: 66a5b830837f0697ccebba73
