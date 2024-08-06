@@ -116,6 +116,7 @@ const authenticationV2 = asyncHandler(async (req, res, next) => {
       throw new AuthFailureError("Unauthorizated");
     }
     req.keyStore = holderShop;
+    req.user = decode;
     return next();
   } catch (error) {
     console.log(error);

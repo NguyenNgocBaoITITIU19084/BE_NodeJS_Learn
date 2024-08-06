@@ -1,0 +1,58 @@
+@url_dev=http://localhost:3055/v1/api
+
+
+### Add product to cart
+POST {{url_dev}}/cart/
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a5b830837f0697ccebba73
+authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTEzNTcwLCJleHAiOjE3MjMwODYzNzB9.5zJ86xzqyQUN5YUP0DhBHWvLBCiFezBY2j2uuXuggHk
+
+{
+    "product_id" : "66a5bfcfe7aea184f1184c16",
+    "product_price": 2000,
+    "cart_quantity": 10,
+    "shop_id": "66a5b830837f0697ccebba73"
+}
+
+
+### Get cart list by userId
+GET {{url_dev}}/cart/
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a5b830837f0697ccebba73
+authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTEzNTcwLCJleHAiOjE3MjMwODYzNzB9.5zJ86xzqyQUN5YUP0DhBHWvLBCiFezBY2j2uuXuggHk
+
+
+### delete item in cart by product id [user]
+GET {{url_dev}}/cart/
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a5b830837f0697ccebba73
+authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTEzNTcwLCJleHAiOjE3MjMwODYzNzB9.5zJ86xzqyQUN5YUP0DhBHWvLBCiFezBY2j2uuXuggHk
+
+
+### update product quantity in cart
+PATCH {{url_dev}}/cart/update-quantity
+Content-Type: application/json
+x-api-key: baonguyen
+x-client-id: 66a5b830837f0697ccebba73
+authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTEzNTcwLCJleHAiOjE3MjMwODYzNzB9.5zJ86xzqyQUN5YUP0DhBHWvLBCiFezBY2j2uuXuggHk
+
+{
+    "shop_order_ids": [
+        {
+            "shop_id": "",
+            "item_products": [
+                {
+                    "quantity": 2,
+                    "price": 200,
+                    "old_quantity": 10,
+                    "shopId": "",
+                    "product_id": ""
+                }
+            ],
+            "version"
+        },
+    ]
+}
