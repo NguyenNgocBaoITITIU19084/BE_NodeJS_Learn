@@ -1,12 +1,13 @@
 @url_dev=http://localhost:3055/v1/api
-
-
+@Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTI2MDIxLCJleHAiOjE3MjMwOTg4MjF9.JNvMUuW__mydvxNH6lMVXCGEa_sjVJCrgeNWgIzD3pU
+@ApiKey=baonguyen
+@ClientId=66a5b830837f0697ccebba73
 ### Add product to cart
 POST {{url_dev}}/cart/
 Content-Type: application/json
-x-api-key: baonguyen
-x-client-id: 66a5b830837f0697ccebba73
-authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTI2MDIxLCJleHAiOjE3MjMwOTg4MjF9.JNvMUuW__mydvxNH6lMVXCGEa_sjVJCrgeNWgIzD3pU
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
 
 {
     "product_id" : "66b1c3e47b7e4a56e762a4ec",
@@ -19,25 +20,24 @@ authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN
 ### Get cart list by userId
 GET {{url_dev}}/cart/
 Content-Type: application/json
-x-api-key: baonguyen
-x-client-id: 66a5b830837f0697ccebba73
-authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTEzNTcwLCJleHAiOjE3MjMwODYzNzB9.5zJ86xzqyQUN5YUP0DhBHWvLBCiFezBY2j2uuXuggHk
-
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
 
 ### delete item in cart by product id [user]
 DELETE  {{url_dev}}/cart/
 Content-Type: application/json
-x-api-key: baonguyen
-x-client-id: 66a5b830837f0697ccebba73
-authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTEzNTcwLCJleHAiOjE3MjMwODYzNzB9.5zJ86xzqyQUN5YUP0DhBHWvLBCiFezBY2j2uuXuggHk
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
 
 
 ### update product quantity in cart
 PATCH {{url_dev}}/cart/update-quantity
 Content-Type: application/json
-x-api-key: baonguyen
-x-client-id: 66a5b830837f0697ccebba73
-authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTEzNTcwLCJleHAiOjE3MjMwODYzNzB9.5zJ86xzqyQUN5YUP0DhBHWvLBCiFezBY2j2uuXuggHk
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
 
 {
     "shop_order_ids": [

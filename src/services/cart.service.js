@@ -127,7 +127,8 @@ class CartService {
     });
   };
 
-  static deleteItemCart = async ({ userId, product_id }) => {
+  static deleteItemCart = async (userId, productId) => {
+    const { product_id } = productId;
     return await findCartAndUpdate({
       filter: {
         cart_userId: userId,
@@ -135,7 +136,7 @@ class CartService {
         "cart_products.product_id": product_id,
       },
       update: {
-        $pull: { "cart_products.$.product_id": product_id },
+        $pull: { cart_products: { product_id: product_id } },
       },
     });
   };

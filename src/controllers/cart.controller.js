@@ -41,14 +41,10 @@ class CartController {
   };
 
   deleteItemCart = async (req, res) => {
-    console.log(`::[P]::deleteItemCart::`, req.user.userId, {
-      product: req.body,
-    });
+    console.log(`::[P]::deleteItemCart::`, req.user.userId, req.body);
     new CREATED({
       message: "Success deleteItemCart!",
-      metadata: await CartService.deleteItemCart({
-        userId: req.user.userId,
-      }),
+      metadata: await CartService.deleteItemCart(req.user.userId, req.body),
     }).send(res);
   };
 }
