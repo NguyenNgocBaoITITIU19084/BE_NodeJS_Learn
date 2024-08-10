@@ -16,38 +16,36 @@ const findByShopIdAndCode = async ({ code, shopId }) => {
     .lean();
 };
 
-const createNewDiscount = async ({ payload }) => {
+const createNewDiscount = async ({ payload, discount_shopId }) => {
   const {
-    name,
-    description,
-    type,
-    value,
-    code,
-    start_date,
-    end_date,
-    max_uses,
-    max_per_users,
-    min_oder_value,
-    shopId,
-    is_active,
-    applies_to,
-    product_ids,
+    discount_name,
+    discount_description,
+    discount_type,
+    discount_value,
+    discount_code,
+    discount_start_date,
+    discount_end_date,
+    discount_max_uses,
+    discount_max_per_users,
+    discount_min_oder_value,
+    discount_applies_to,
+    discount_product_ids,
   } = payload;
   return await discountModel.create({
-    discount_name: name,
-    discount_description: description,
-    discount_type: type,
-    discount_value: value, // 10.000 VND or 20%
-    discount_code: code, // discount Code
-    discount_start_date: new Date(start_date),
-    discount_end_date: new Date(end_date),
-    discount_max_uses: max_uses, // number of available discount
-    discount_max_per_users: max_per_users, // used times for each person
-    discount_min_order_value: min_oder_value || 0,
-    discount_shopId: shopId,
-    discount_is_active: is_active,
-    discount_applies_to: applies_to,
-    discount_product_ids: applies_to === "all" ? [] : product_ids,
+    discount_name,
+    discount_description,
+    discount_type,
+    discount_value, // 10.000 VND or 20%
+    discount_code, // discount Code
+    discount_start_date: new Date(discount_start_date),
+    discount_end_date: new Date(discount_end_date),
+    discount_max_uses, // number of available discount
+    discount_max_per_users, // used times for each person
+    discount_min_order_value: discount_min_oder_value || 0,
+    discount_shopId,
+    discount_applies_to,
+    discount_product_ids:
+      discount_applies_to === "all" ? [] : discount_product_ids,
   });
 };
 

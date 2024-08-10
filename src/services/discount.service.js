@@ -11,23 +11,36 @@ const { convertToObjectIdMongoose } = require("../utils");
 const discountModel = require("../models/discount.model");
 
 class DiscountService {
-  static async createDiscount(payload) {
-    const { code, start_date, end_date, shopId } = payload;
+  static async createDiscount({ payload, shopId }) {
+    const { discount_code, discount_start_date, discount_end_date } = payload;
 
-    if (new Date() < new Date(start_date) || new Date() > new Date(end_date)) {
+    if (
+      new Date() < new Date(discount_start_date) ||
+      new Date() > new Date(discount_end_date)
+    ) {
       throw new BadRequestError("Discount code is expired!");
     }
 
-    if (new Date(start_date) >= new Date(end_date))
+    if (new Date(discount_start_date) >= new Date(discount_end_date))
       throw new BadRequestError("Start date must be less than end date");
 
-    const foundDiscount = await findByShopIdAndCode({ code, shopId });
+    const foundDiscount = await findByShopIdAndCode({
+      code: discount_code,
+      shopId: shopId.toString(),
+    });
+    console.log(",foundDiscountfoundDiscount", foundDiscount);
 
-    if (foundDiscount && foundDiscount.discount_is_active)
-      throw new BadRequestError("Discount is existed!");
+    if (foundDiscount) throw new BadRequestError("Discount is existed!");
     // create index for discount code
 
-    const newDiscount = await createNewDiscount(payload);
+    if (foundDiscount && !foundDiscount.discount_is_active)
+      throw new BadRequestError("Discount is expired!");
+    // create index for discount code
+
+    const newDiscount = await createNewDiscount({
+      payload,
+      discount_shopId: shopId,
+    });
     return newDiscount;
   }
 
