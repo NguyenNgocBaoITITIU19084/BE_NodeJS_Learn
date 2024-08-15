@@ -7,6 +7,14 @@ const {
 } = require("../../utils/index");
 const discountModel = require("../../models/discount.model");
 
+const findById = async (id) => {
+  return await discountModel.findById({ _id: id });
+};
+
+const findOne = async (filter = {}) => {
+  return await discountModel.findOne(filter);
+};
+
 const findByShopIdAndCode = async ({ code, shopId }) => {
   return await discountModel
     .findOne({
@@ -101,4 +109,6 @@ module.exports = {
   findAllDiscountCodeUnSelect,
   findAllDiscountCodeSelect,
   findOneAndUpdate,
+  findById,
+  findOne,
 };

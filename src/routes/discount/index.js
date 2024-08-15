@@ -12,14 +12,16 @@ const {
 const router = express.Router();
 
 router.get("/", asyncHandler(DiscountController.getDiscounts));
-router.post(
-  "/apply-discount",
-  asyncHandler(DiscountController.getDiscountAmount)
-);
 
 // authentication
 router.use(authenticationV2);
 ///////////////////////////
+router.post(
+  "/getDiscountAmount",
+  asyncHandler(DiscountController.getDiscountAmount)
+);
+
+router.patch("/update", asyncHandler(DiscountController.updateDiscount));
 
 router.post("/", asyncHandler(DiscountController.createDiscount));
 

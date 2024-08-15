@@ -61,7 +61,6 @@ class DiscountController {
     console.log(`::[P]::getDiscountAmount::`, {
       body: req.body,
       shopId: req.keyStore.user,
-      userId: req.user.userId,
     });
     new SuccessResponse({
       message: "Success getDiscountAmount by user!",
@@ -69,6 +68,21 @@ class DiscountController {
         body: req.body,
         shopId: req.keyStore.user,
         userId: req.user.userId,
+      }),
+    }).send(res);
+  };
+
+  updateDiscount = async (req, res) => {
+    console.log(`::[P]::updateDiscount::`, {
+      body: req.body,
+      shopId: req.keyStore.user,
+      userId: req.user.userId,
+    });
+    new SuccessResponse({
+      message: "Success updateDiscount by user!",
+      metadata: await DiscountService.updateDiscount({
+        body: req.body,
+        shopId: req.keyStore.user,
       }),
     }).send(res);
   };

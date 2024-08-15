@@ -61,7 +61,7 @@ authorization:{{Authorization}}
 }
 
 ### get discount amount by userId
-POST  {{url_dev}}/discount/apply-discount
+POST  {{url_dev}}/discount/getDiscountAmount
 Content-Type: application/json
 x-api-key: {{ApiKey}}
 x-client-id: {{ClientId}}
@@ -70,6 +70,24 @@ authorization:{{Authorization}}
 {
     "discount_code" : "VNSHOPEE_SALE_3",
     "products": [{
-        
+        "quantity": 20,
+        "price": 1000,
+        "shopId": "66a5b830837f0697ccebba73",
+        "productId":"66a5bfcfe7aea184f1184c16",
+        "name": "day chuyen be ngan tang"
     }]
+}
+
+### get discount amount by userId
+PATCH  {{url_dev}}/discount/update
+Content-Type: application/json
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
+
+{
+    "discount_id": "66b7266357aeb6b60020bb9c",
+    "discount_code" : "meow meow meow~~",
+    "discount_type": "percented",
+    "discount_value": 200
 }

@@ -11,6 +11,8 @@ const {
   createNewDiscount,
   findAllDiscountCodeUnSelect,
   findOneAndUpdate,
+  findById,
+  findOne,
 } = require("../models/repositories/discount.repo");
 const { convertToObjectIdMongoose } = require("../utils");
 const discountModel = require("../models/discount.model");
@@ -49,8 +51,103 @@ class DiscountService {
     return newDiscount;
   }
 
-  static async updateDiscount() {
-    // ...
+  static async updateDiscount({ body, shopId }) {
+    const {
+      discount_id,
+      discount_name,
+      discount_description,
+      discount_type,
+      discount_value,
+      discount_code,
+      discount_start_date,
+      discount_end_date,
+      discount_max_uses,
+      discount_max_per_users,
+      discount_min_order_value,
+      discount_applies_to,
+    } = body;
+
+    const foundDiscount = await findOne({
+      discount_shopId: shopId,
+      _id: discount_id,
+    });
+
+    if (!foundDiscount) throw new BadRequestError("Discount is invalid!");
+
+    if (discount_start_date && discount_end_date) {
+      if (
+        new Date() < new Date(discount_start_date) ||
+        new Date() > new Date(discount_end_date)
+      ) {
+        throw new BadRequestError("Discount code is expired!");
+      }
+
+      if (new Date(discount_start_date) >= new Date(discount_end_date))
+        throw new BadRequestError("Start date must be less than end date");
+    }
+
+    if (
+      discount_type &&
+      discount_value &&
+      discount_type === "fixed_amount" &&
+      discount_value < 0
+    )
+      throw new BadRequestError("discount_value must be greater than 0");
+
+    if (
+      (discount_type &&
+        discount_value &&
+        discount_type === "percented" &&
+        discount_value > 100) ||
+      discount_value < 0
+    ) {
+      throw new BadRequestError(
+        "discount_value must be greater than 0 and less than 100"
+      );
+    }
+
+    if (discount_max_per_users && !(discount_max_per_users > 0))
+      throw new BadRequestError(
+        "discount_max_per_users must be greater than 0"
+      );
+
+    if (discount_max_uses && !(discount_max_uses > 0))
+      throw new BadRequestError("discount_max_uses must be greater than 0");
+
+    if (discount_min_order_value && !(discount_min_order_value > 0))
+      throw new BadRequestError(
+        "discount_min_order_value must be greater than 0"
+      );
+
+    if (discount_applies_to && discount_product_ids) {
+      if (discount_applies_to === "all" && discount_product_ids)
+        throw new BadRequestError(
+          "invalid discount_applies_to and discount_product_ids"
+        );
+
+      if (foundDiscount.discount_applies_to === "all" && discount_product_ids)
+        throw new BadRequestError(
+          "invalid discount_applies_to and discount_product_ids"
+        );
+    }
+
+    const filter = { _id: discount_id, discount_shopId: shopId };
+    const update = {
+      $set: {
+        discount_name,
+        discount_description,
+        discount_type,
+        discount_value,
+        discount_code,
+        discount_start_date,
+        discount_end_date,
+        discount_max_uses,
+        discount_max_per_users,
+        discount_min_order_value,
+        discount_applies_to,
+      },
+    };
+    return await findOneAndUpdate({ filter, update });
   }
 
   // get all product with discount code by user
@@ -126,8 +223,11 @@ class DiscountService {
    * }]
    */
   static async getDiscountAmount({ body, shopId, userId }) {
-    const { code, products } = body;
-    const foundDiscount = await findByShopIdAndCode({ code, shopId });
+    const { discount_code, products } = body;
+    const foundDiscount = await findByShopIdAndCode({
+      code: discount_code,
+      shopId,
+    });
 
     if (!foundDiscount) throw new NotFoundError("Discount is not existed!");
 
@@ -153,38 +253,45 @@ class DiscountService {
       throw new BadRequestError("Discount is expired!");
 
     // check xem co gia tri toi thieu hay khong
-    let totalOrder = 0;
-    if (discount_min_order_value > 0) {
-      totalOrder = products.reduce((acc, product) => {
-        return acc + product.quantity * product.price;
-      }, 0);
-    }
+    let totalOrderPrice = 0;
+    totalOrderPrice = products.reduce((acc, product) => {
+      return acc + product.quantity * product.price;
+    }, 0);
 
     // kiem tra tong tien co lon hon gia tri thoi thieu hay khong
-    if (totalOrder < discount_min_order_value)
+    if (
+      discount_min_order_value > 0 &&
+      totalOrderPrice < discount_min_order_value
+    )
       throw new BadRequestError(
         `discount requires a minimum order value of ${discount_min_order_value}`
       );
 
     // kiem tra so lan su dung discount cua mot user
     if (discount_max_per_users > 0) {
-      userUsedDiscount = discount_user_used.filter((user) => user === userId);
+      const userUsedDiscount = discount_user_used.filter(
+        (user) => user === userId
+      );
       if (userUsedDiscount.length >= discount_max_per_users)
         throw new BadRequestError("Run out of times to use discount!");
     }
 
     // check type cua discount === all || specified
     let totalPrice = 0;
+    let amountDiscount = 0;
+    if (discount_type === "percented") {
+      amountDiscount = (totalOrderPrice * discount_value) / 100;
+      totalPrice = totalOrderPrice - amountDiscount;
+    }
 
-    if (discount_type === "percented")
-      totalPrice = totalOrder - (totalOrder * discount_value) / 100;
-
-    if (discount_type === "fixed_amount")
-      totalPrice = totalOrder - discount_value;
+    if (discount_type === "fixed_amount") {
+      amountDiscount = discount_value;
+      totalPrice = totalOrderPrice - amountDiscount;
+    }
 
     return {
-      totalOrder,
-      discount: amount,
+      totalOrderPrice,
+      discount: amountDiscount,
       totalPrice,
     };
   }
