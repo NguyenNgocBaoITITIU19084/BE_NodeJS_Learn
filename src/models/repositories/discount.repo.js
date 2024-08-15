@@ -91,9 +91,14 @@ const findAllDiscountCodeSelect = async ({
   return doccuments;
 };
 
+const findOneAndUpdate = async ({ filter, update, option = { new: true } }) => {
+  return await discountModel.findOneAndUpdate(filter, update, option);
+};
+
 module.exports = {
   findByShopIdAndCode,
   createNewDiscount,
   findAllDiscountCodeUnSelect,
   findAllDiscountCodeSelect,
+  findOneAndUpdate,
 };

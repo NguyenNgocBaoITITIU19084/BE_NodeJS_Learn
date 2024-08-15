@@ -1,11 +1,16 @@
 "use strict";
 
-const { BadRequestError, NotFoundError } = require("../cores/error.response");
+const {
+  BadRequestError,
+  NotFoundError,
+  ForbiddenError,
+} = require("../cores/error.response");
 const { findAllProducts } = require("../models/repositories/product.repo");
 const {
   findByShopIdAndCode,
   createNewDiscount,
   findAllDiscountCodeUnSelect,
+  findOneAndUpdate,
 } = require("../models/repositories/discount.repo");
 const { convertToObjectIdMongoose } = require("../utils");
 const discountModel = require("../models/discount.model");
@@ -49,13 +54,8 @@ class DiscountService {
   }
 
   // get all product with discount code by user
-  static async getAllDiscountCodesWithProduct({
-    code,
-    shopId,
-    userId,
-    limit,
-    page,
-  }) {
+  static async getAllDiscountCodesWithProduct(payload, shopId) {
+    const { code, limit, page } = payload;
     const foundDiscount = await findByShopIdAndCode({ code, shopId });
 
     if (!foundDiscount && !foundDiscount.discount_is_active)
@@ -125,7 +125,8 @@ class DiscountService {
    *    nam
    * }]
    */
-  static async getDiscountAmount({ code, shopId, userId, products }) {
+  static async getDiscountAmount({ body, shopId, userId }) {
+    const { code, products } = body;
     const foundDiscount = await findByShopIdAndCode({ code, shopId });
 
     if (!foundDiscount) throw new NotFoundError("Discount is not existed!");
@@ -199,7 +200,47 @@ class DiscountService {
     // ....
   }
 
-  static async cancelDiscount() {}
+  static async cancelDiscount({ body, shopId }) {
+    const { discount_code } = body;
+    const foundedDiscount = await findByShopIdAndCode({
+      code: discount_code,
+      shopId,
+    });
+
+    if (!foundedDiscount) throw new NotFoundError("Discount is not valid");
+
+    if (!foundedDiscount.discount_is_active)
+      throw new ForbiddenError("Discount is expired!");
+
+    const filter = {
+      discount_code,
+      discount_shopId: shopId,
+      discount_is_active: true,
+    };
+    const update = { discount_is_active: false };
+    return await findOneAndUpdate({ filter, update });
+  }
+
+  static async activeDiscount({ body, shopId }) {
+    const { discount_code } = body;
+    const foundedDiscount = await findByShopIdAndCode({
+      code: discount_code,
+      shopId,
+    });
+
+    if (!foundedDiscount) throw new NotFoundError("Discount is not valid");
+
+    if (foundedDiscount.discount_is_active)
+      throw new ForbiddenError("Discount is already active!");
+
+    const filter = {
+      discount_code,
+      discount_shopId: shopId,
+      discount_is_active: false,
+    };
+    const update = { discount_is_active: true };
+    return await findOneAndUpdate({ filter, update });
+  }
 }
 
 module.exports = DiscountService;

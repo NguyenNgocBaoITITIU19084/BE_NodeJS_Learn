@@ -1,5 +1,5 @@
 @url_dev=http://localhost:3055/v1/api
-@Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIzMjc2OTM3LCJleHAiOjE3MjM0NDk3Mzd9.sykHb7Mhg0imM0WNls-qt7NFrIPUkAIzLVIdcKZqSvI
+@Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIzNzA0NzE4LCJleHAiOjE3MjM4Nzc1MTh9.HF_eLP8Yq9Nh-7yrI4JqGtEU30lohlaRBuWxthUWagc
 @ApiKey=baonguyen
 @ClientId=66a5b830837f0697ccebba73
 
@@ -15,12 +15,61 @@ authorization:{{Authorization}}
     "discount_description": "flash sale 8/8 siuu salee",
     "discount_type": "fixed_amount",
     "discount_value": 100000, 
-    "discount_code": "VNSHOPEE_SALE", 
+    "discount_code": "VNSHOPEE_SALE_3", 
     "discount_start_date": "2024-8-10",
     "discount_end_date": "2024-9-10",
     "discount_max_uses": 100, 
     "discount_max_per_users": 1,
     "discount_min_order_value": 10000,
-    "discount_applies_to": "all",
+    "discount_applies_to": "specific",
     "discount_product_ids": ["66a5bfcfe7aea184f1184c16"]
+}
+
+### get all products by discount code by user
+GET {{url_dev}}/discount/
+Content-Type: application/json
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
+
+{
+    "code" : "VNSHOPEE_SALE_3",
+    "limit": 5,
+    "page": 1
+}
+
+### cancel discount code by shopId
+PATCH  {{url_dev}}/discount/cancel
+Content-Type: application/json
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
+
+{
+    "discount_code" : "VNSHOPEE_SALE_3"
+}
+
+### active discount code by shopId
+PATCH  {{url_dev}}/discount/active
+Content-Type: application/json
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
+
+{
+    "discount_code" : "VNSHOPEE_SALE_3"
+}
+
+### get discount amount by userId
+POST  {{url_dev}}/discount/apply-discount
+Content-Type: application/json
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
+
+{
+    "discount_code" : "VNSHOPEE_SALE_3",
+    "products": [{
+        
+    }]
 }
