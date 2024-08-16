@@ -76,11 +76,38 @@ class DiscountController {
     console.log(`::[P]::updateDiscount::`, {
       body: req.body,
       shopId: req.keyStore.user,
-      userId: req.user.userId,
     });
     new SuccessResponse({
       message: "Success updateDiscount by user!",
       metadata: await DiscountService.updateDiscount({
+        body: req.body,
+        shopId: req.keyStore.user,
+      }),
+    }).send(res);
+  };
+
+  applyDiscountForProduct = async (req, res) => {
+    console.log(`::[P]::applyDiscountForProduct::`, {
+      body: req.body,
+      shopId: req.keyStore.user,
+    });
+    new SuccessResponse({
+      message: "Success applyDiscountForProduct by user!",
+      metadata: await DiscountService.applyDiscountForProduct({
+        body: req.body,
+        shopId: req.keyStore.user,
+      }),
+    }).send(res);
+  };
+
+  removeDiscountForProduct = async (req, res) => {
+    console.log(`::[P]::removeDiscountForProduct::`, {
+      body: req.body,
+      shopId: req.keyStore.user,
+    });
+    new SuccessResponse({
+      message: "Success removeDiscountForProduct by user!",
+      metadata: await DiscountService.removeDiscountForProduct({
         body: req.body,
         shopId: req.keyStore.user,
       }),

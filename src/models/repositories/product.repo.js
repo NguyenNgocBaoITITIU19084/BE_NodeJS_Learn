@@ -92,6 +92,14 @@ const unPublicProductByShop = async ({ product_shop, product_id }) => {
   return result;
 };
 
+const findOneAndUpdateProduct = async ({
+  filter,
+  update,
+  option = { new: true },
+}) => {
+  return await product.findOneAndUpdate(filter, update, option);
+};
+
 module.exports = {
   findAllDraftsForShop,
   publicProductByShop,
@@ -101,4 +109,5 @@ module.exports = {
   findAllProducts,
   findProduct,
   updateProductById,
+  findOneAndUpdateProduct,
 };

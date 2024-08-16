@@ -5,7 +5,12 @@ const {
   NotFoundError,
   ForbiddenError,
 } = require("../cores/error.response");
-const { findAllProducts } = require("../models/repositories/product.repo");
+const {
+  findAllProducts,
+  findProduct,
+
+  findOneAndUpdateProduct,
+} = require("../models/repositories/product.repo");
 const {
   findByShopIdAndCode,
   createNewDiscount,
@@ -14,7 +19,10 @@ const {
   findById,
   findOne,
 } = require("../models/repositories/discount.repo");
-const { convertToObjectIdMongoose } = require("../utils");
+const {
+  convertToObjectIdMongoose,
+  cleanNestedObjectParser,
+} = require("../utils");
 const discountModel = require("../models/discount.model");
 
 class DiscountService {
@@ -133,7 +141,7 @@ class DiscountService {
 
     const filter = { _id: discount_id, discount_shopId: shopId };
     const update = {
-      $set: {
+      $set: cleanNestedObjectParser({
         discount_name,
         discount_description,
         discount_type,
@@ -145,7 +153,7 @@ class DiscountService {
         discount_max_per_users,
         discount_min_order_value,
         discount_applies_to,
-      },
+      }),
     };
     return await findOneAndUpdate({ filter, update });
   }
@@ -305,6 +313,70 @@ class DiscountService {
 
   static async deleteDiscountCode() {
     // ....
+  }
+
+  static async applyDiscountForProduct({ body, shopId }) {
+    const { discount_code, product_id } = body;
+    const foundedDiscount = await findByShopIdAndCode({
+      code: discount_code,
+      shopId,
+    });
+
+    if (!foundedDiscount) throw new NotFoundError("Discount is not valid");
+
+    if (!foundedDiscount.discount_is_active)
+      throw new ForbiddenError("Discount is expired!");
+
+    const foundProduct = await findProduct({ product_id, unSelect: ["__v"] });
+    if (!foundProduct) throw new ForbiddenError("Product is not exist");
+
+    if (!foundProduct.product_shop.equals(shopId))
+      throw new BadRequestError("Product is invalid");
+
+    if (foundProduct.isDraft === true)
+      throw new BadRequestError("Product is expired!");
+
+    const filter = {
+      discount_code,
+      discount_is_active: true,
+      discount_shopId: shopId,
+    };
+    const update = {
+      $addToSet: { discount_product_ids: product_id },
+    };
+    return await findOneAndUpdate({ filter, update });
+  }
+
+  static async removeDiscountForProduct({ body, shopId }) {
+    const { discount_code, product_id } = body;
+    const foundedDiscount = await findByShopIdAndCode({
+      code: discount_code,
+      shopId,
+    });
+
+    if (!foundedDiscount) throw new NotFoundError("Discount is not valid");
+
+    if (!foundedDiscount.discount_is_active)
+      throw new ForbiddenError("Discount is expired!");
+
+    const foundProduct = await findProduct({ product_id, unSelect: ["__v"] });
+    if (!foundProduct) throw new ForbiddenError("Product is not exist");
+
+    if (!foundProduct.product_shop.equals(shopId))
+      throw new BadRequestError("Product is invalid");
+
+    if (foundProduct.isDraft === true)
+      throw new BadRequestError("Product is expired!");
+
+    const filter = {
+      discount_code,
+      discount_is_active: true,
+      discount_shopId: shopId,
+    };
+    const update = {
+      $pull: { discount_product_ids: product_id },
+    };
+    return await findOneAndUpdate({ filter, update });
   }
 
   static async cancelDiscount({ body, shopId }) {

@@ -25,6 +25,15 @@ router.patch("/update", asyncHandler(DiscountController.updateDiscount));
 
 router.post("/", asyncHandler(DiscountController.createDiscount));
 
+router.patch(
+  "/apply-discount-to-product",
+  asyncHandler(DiscountController.applyDiscountForProduct)
+);
+router.patch(
+  "/remove-discount-to-product",
+  asyncHandler(DiscountController.removeDiscountForProduct)
+);
+
 // permission middeware
 router.use(permission("0000"));
 // ///////////////////////////
