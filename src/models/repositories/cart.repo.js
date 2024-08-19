@@ -24,8 +24,13 @@ const findCartAndUpdate = async ({
   return await cartModel.findOneAndUpdate(filter, update, option);
 };
 
+const getCartByIdAndUserId = async ({ cartId, userId }) => {
+  return await cartModel.findOne({ _id: cartId, cart_userId: userId });
+};
+
 module.exports = {
   findOneCart,
   createUserCart,
   findCartAndUpdate,
+  getCartByIdAndUserId,
 };

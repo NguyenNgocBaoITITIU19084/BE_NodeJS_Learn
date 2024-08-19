@@ -1,0 +1,40 @@
+@url_dev=http://localhost:3055/v1/api
+@Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzI0MDU5MzkxLCJleHAiOjE3MjQyMzIxOTF9.g3B4ZUFPpA3mg2XSGI3iInzESLYUXDVZ3mPPTLeR1qU
+@ApiKey=baonguyen
+@ClientId=66a5b830837f0697ccebba73
+
+### Add new discount by Shop
+GET {{url_dev}}/check-out/review
+Content-Type: application/json
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
+
+  {
+      "cartId": "66b19b7061fb071aad4ab927",
+      "userId": "66a5b830837f0697ccebba73",
+      "shop_order_ids": [
+          {
+              "shopId": "66a5b830837f0697ccebba73",
+              "shop_discounts": ["VNSHOPEE_SALE_2"],
+              "item_products": [
+                  {
+                      "price": 2000,
+                      "quantity": 2,
+                      "productId": "66a5bfcfe7aea184f1184c16"
+                  }
+              ]
+          },
+          {
+              "shopId": "66c30a2326a9418193ec1e45",
+              "shop_discounts": [],
+              "item_products": [
+                  {
+                      "price": 2000,
+                      "quantity": 2,
+                      "productId": "66c30bda26a9418193ec1e51"
+                  }
+              ]
+          }
+      ]
+  }

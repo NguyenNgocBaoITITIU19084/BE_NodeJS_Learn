@@ -100,7 +100,7 @@ x-client-id: {{ClientId}}
 authorization:{{Authorization}}
 
 {
-    "product_id": "66b7266357aeb6b60020bb9c",
+    "product_id": "66a5bfcfe7aea184f1184c16",
     "discount_code" : "meow meow meow~~"
 }
 
@@ -112,6 +112,6 @@ x-client-id: {{ClientId}}
 authorization:{{Authorization}}
 
 {
-    "product_id": "66b7266357aeb6b60020bb9c",
+    "product_id": "66a5bfcfe7aea184f1184c16",
     "discount_code" : "meow meow meow~~"
 }
