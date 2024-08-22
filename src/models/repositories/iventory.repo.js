@@ -16,4 +16,14 @@ const insertInventory = async ({
   });
 };
 
-module.exports = { insertInventory };
+const conversationInventory = async ({ productId, cartId, quantity }) => {
+  const filter = { inven_productId: productId, inven_stock: { $gt: quantity } };
+  const update = {
+    $inc: { inven_stock: -quantity },
+    $push: { inven_reservations: { cartId, quantity, createOn: new Date() } },
+  };
+  const option = { upsert: true, new: true };
+  return await inventoryModel.findByIdAndUpdate(filter, update, option);
+};
+
+module.exports = { insertInventory, conversationInventory };

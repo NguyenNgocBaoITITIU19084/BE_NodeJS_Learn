@@ -4,6 +4,10 @@ const { getCartByIdAndUserId } = require("../models/repositories/cart.repo");
 const { BadRequestError } = require("../cores/error.response");
 const { checkProductByServer } = require("../models/repositories/product.repo");
 const discountService = require("../services/discount.service");
+const { acquireLock, releaseKey } = require("./redis.service");
+const { createOrder } = require("../models/repositories/order.repo");
+const cartService = require("../services/cart.service");
+
 class CheckoutService {
   // {
   //     cartId,
@@ -36,8 +40,6 @@ class CheckoutService {
   static async checkoutReview({ body }) {
     const { cartId, userId, shop_order_ids = [] } = body;
     const foundCart = await getCartByIdAndUserId({ cartId, userId });
-    console.log("foundCart", foundCart);
-
     if (!foundCart) throw new BadRequestError("CartId is invalid");
 
     const checkout_order = {
@@ -110,6 +112,84 @@ class CheckoutService {
       checkout_order,
     };
   }
+
+  static async orderByUser({
+    shop_order_ids,
+    shopId,
+    cartId,
+    userId,
+    user_address = {},
+    user_payment = {},
+  }) {
+    const foundCart = await getCartByIdAndUserId({ cartId, userId });
+    if (!foundCart) throw new BadRequestError("CartId is invalid");
+
+    if (!foundCart.cart_userId.equals(userId)) {
+      throw new BadRequestError("Invalid userId");
+    }
+
+    const { shop_order_ids_new, checkout_order } =
+      await CheckoutService.checkoutReview({
+        body: {
+          shop_order_ids,
+          shopId,
+          cartId,
+        },
+      });
+
+    // lay tat ca san pham
+    const products = shop_order_ids_new.flatMap((order) => order.itemproducts);
+    console.log(`[1]:::`, products);
+
+    // kiem tra so luong ton kho cua moi san pham, su dung khoa optimistic
+    const acquireProduct = [];
+    for (let i = 0; i < products.length; i++) {
+      const { productId, quantity } = products[i];
+      const keyLock = await acquireLock({ productId, quantity, cartId });
+      acquireLock.push(keyLock ? true : false);
+
+      if (keyLock) {
+        await releaseKey(keyLock);
+      }
+    }
+
+    // if cos mot san pham trong kho het hang, thong bao loi
+    if (acquireProduct.includes(false)) {
+      throw new BadRequestError(
+        "there is some update with product in your cart, pls come back to cart"
+      );
+    }
+
+    // tao mot don hang moi trong order collection
+    const newOrder = await createOrder({
+      order_userId: userId,
+      order_checkout: checkout_order,
+      order_shipping: user_address,
+      order_payment: user_payment,
+      order_products: shop_order_ids,
+    });
+
+    // truong hop neu tap thanh cong don hang moi, thi xoa san pham trong gio hang
+    if (newOrder) {
+      // xoa san pham trong gio hang
+      products.forEach(async (product) => {
+        await cartService.deleteItemCart(userId, product.productId);
+      });
+    }
+    // tra ve new order list
+    return newOrder;
+  }
+
+  // update status order by shop, very very very important
+  static async updateOrderStatusByOrder() {}
+
+  // get one order by user
+  static async getOneOrderByUser() {}
+
+  // cancel order by User
+  static async cancelOrderByUser() {}
+
+  static async getOrderByUser() {}
 }
 
 module.exports = CheckoutService;
