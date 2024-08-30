@@ -115,7 +115,6 @@ class CheckoutService {
 
   static async orderByUser({
     shop_order_ids,
-    shopId,
     cartId,
     userId,
     user_address = {},
@@ -132,7 +131,7 @@ class CheckoutService {
       await CheckoutService.checkoutReview({
         body: {
           shop_order_ids,
-          shopId,
+          userId,
           cartId,
         },
       });
@@ -146,7 +145,9 @@ class CheckoutService {
     for (let i = 0; i < products.length; i++) {
       const { productId, quantity } = products[i];
       const keyLock = await acquireLock({ productId, quantity, cartId });
-      acquireLock.push(keyLock ? true : false);
+      console.log("keyLock", keyLock);
+
+      acquireProduct.push(keyLock ? true : false);
 
       if (keyLock) {
         await releaseKey(keyLock);
@@ -173,7 +174,9 @@ class CheckoutService {
     if (newOrder) {
       // xoa san pham trong gio hang
       products.forEach(async (product) => {
-        await cartService.deleteItemCart(userId, product.productId);
+        console.log("producttttttt::::", product);
+
+        await cartService.deleteItemCart(userId, product);
       });
     }
     // tra ve new order list

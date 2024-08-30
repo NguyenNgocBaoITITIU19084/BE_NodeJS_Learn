@@ -132,7 +132,7 @@ class CartService {
   };
 
   static deleteItemCart = async (userId, productId) => {
-    const { product_id } = productId;
+    const { productId: product_id } = productId;
     return await findCartAndUpdate({
       filter: {
         cart_userId: userId,

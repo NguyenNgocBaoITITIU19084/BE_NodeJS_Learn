@@ -20,17 +20,20 @@ redisClient.on("connect", function (error) {
 const setNXAsync = promisify(redisClient.setnx).bind(redisClient);
 const getAsync = promisify(redisClient.get).bind(redisClient);
 const pexpire = promisify(redisClient.pexpire).bind(redisClient);
+const delKeyAsync = promisify(redisClient.del).bind(redisClient);
 
 const acquireLock = async ({ productId, cartId, quantity }) => {
   const key = `key_lock_v2024_${productId}`;
   const retryTime = 10;
   const expireTime = 3000;
+  let isSuccess = false;
 
-  for (let i = 0; i < retryTime.length; i++) {
-    const result = await setNXAsync(key, expireTime);
-    console.log("result:::", result);
+  for (let i = 0; i < retryTime; i++) {
+    await setNXAsync(key, expireTime).then((data) => {
+      isSuccess = true;
+    });
 
-    if (result === 1) {
+    if (isSuccess) {
       // thao tac voi inventory
       const isReversation = await conversationInventory({
         productId,
@@ -38,8 +41,11 @@ const acquireLock = async ({ productId, cartId, quantity }) => {
         quantity,
       });
 
-      if (isReversation.modifiedCount) {
-        await pexpire(key, pexpire);
+      console.log("isReversation", isReversation);
+
+      if (isReversation) {
+        await pexpire(key, expireTime);
+        console.log("expired keyyyyy");
         return key;
       }
       return null;
@@ -51,7 +57,6 @@ const acquireLock = async ({ productId, cartId, quantity }) => {
 };
 
 const releaseKey = async (keyLock) => {
-  const delKeyAsync = promisify(redisClient.del).bind(redisClient);
   await delKeyAsync(keyLock);
 };
 

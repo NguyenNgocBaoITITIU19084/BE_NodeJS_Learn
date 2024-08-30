@@ -17,6 +17,8 @@ router.use(authenticationV2);
 
 router.get("/review", asyncHandler(checkoutController.checkoutReview));
 
+router.get("/order", asyncHandler(checkoutController.orderByUser));
+
 // permission middeware
 router.use(permission("0000"));
 // ///////////////////////////

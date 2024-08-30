@@ -1,5 +1,5 @@
 @url_dev=http://localhost:3055/v1/api
-@Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzI0MDU5MzkxLCJleHAiOjE3MjQyMzIxOTF9.g3B4ZUFPpA3mg2XSGI3iInzESLYUXDVZ3mPPTLeR1qU
+@Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzI0OTE4NTgwLCJleHAiOjE3MjUwOTEzODB9.nBMB6jruZgPiVwcs_lYsZzbAdB9wD1OpR_hkINBzYcc
 @ApiKey=baonguyen
 @ClientId=66a5b830837f0697ccebba73
 
@@ -38,3 +38,41 @@ authorization:{{Authorization}}
           }
       ]
   }
+
+
+### order by user
+GET {{url_dev}}/check-out/order
+Content-Type: application/json
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
+
+{
+    "cartId": "66b19b7061fb071aad4ab927",
+    "shop_order_ids": [
+          {
+              "shopId": "66a5b830837f0697ccebba73",
+              "shop_discounts": ["VNSHOPEE_SALE_2"],
+              "item_products": [
+                  {
+                      "price": 2000,
+                      "quantity": 2,
+                      "productId": "66b1c3e47b7e4a56e762a4ec"
+                  }
+              ]
+          },
+          {
+              "shopId": "66a5b830837f0697ccebba73",
+              "shop_discounts": [],
+              "item_products": [
+                  {
+                      "price": 2000,
+                      "quantity": 2,
+                      "productId": "66a5bfcfe7aea184f1184c16"
+                  }
+              ]
+          }
+    ],
+    "user_address" : { "city": "hcm", "province": "thuduc", "address": "dian2"},
+    "user_payment" : { "payment_method": "visa"}
+}
