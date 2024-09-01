@@ -6,9 +6,11 @@ const {
   findByIdAndUpdateComment,
   findCommentById,
   findManyAndUpdateComment,
+  getListComments,
 } = require("../models/repositories/comment.repo");
 const { convertToObjectIdMongoose } = require("../utils");
 const { NotFoundError } = require("../cores/error.response");
+const { findProduct } = require("../models/repositories/product.repo");
 
 /**
  * key features Comment Service:
@@ -102,6 +104,15 @@ class CommentService {
         },
       });
     }
+  }
+
+  static async getListComments({ productId }) {
+    const product = await findProduct({ product_id: productId });
+    if (!product) throw new NotFoundError("Not Found Product");
+
+    const filter = { comment_productId: convertToObjectIdMongoose(productId) };
+
+    return await getListComments({ filter });
   }
 }
 

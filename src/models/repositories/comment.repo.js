@@ -50,10 +50,30 @@ const createComment = async ({
   });
 };
 
+const getListComments = async ({
+  filter,
+  page = 1,
+  limit = 10,
+  sort,
+  select = [],
+}) => {
+  const skip = (page - 1) * limit;
+  const sortBy = sort === "ctime" ? { _id: -1 } : { _id: 1 };
+  return await commentModel
+    .find(filter)
+    .populate("comment_parentId")
+    .sort(sortBy)
+    .skip(skip)
+    .limit(limit)
+    .select(getSelectData(select))
+    .lean();
+};
+
 module.exports = {
   findCommentById,
   findOneComment,
   findByIdAndUpdateComment,
   createComment,
   findManyAndUpdateComment,
+  getListComments,
 };

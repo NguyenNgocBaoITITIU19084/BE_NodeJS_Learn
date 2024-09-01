@@ -22,6 +22,19 @@ class DiscountController {
       }),
     }).send(res);
   };
+
+  getListComments = async (req, res) => {
+    const { productId } = req.body;
+    console.log(`::[P]::getListComments::`, {
+      productId,
+    });
+    new SuccessResponse({
+      message: "Success getListComments by user!",
+      metadata: await commentService.getListComments({
+        productId,
+      }),
+    }).send(res);
+  };
 }
 
 module.exports = new DiscountController();

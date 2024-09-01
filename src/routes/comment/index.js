@@ -11,6 +11,8 @@ const {
 
 const router = express.Router();
 
+router.get("/get-list", asyncHandler(commentController.getListComments));
+
 // authentication
 router.use(authenticationV2);
 ///////////////////////////

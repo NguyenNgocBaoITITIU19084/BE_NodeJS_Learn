@@ -15,3 +15,14 @@ authorization:{{Authorization}}
     "content": "hello 1.2.2",
     "parentCommentId": "66d4242b10cdc5b18a0aa436"
 }
+
+### Add new discount by Shop
+GET {{url_dev}}/comment/get-list
+Content-Type: application/json
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
+
+{
+    "productId": "66a5bfcfe7aea184f1184c16"
+}
