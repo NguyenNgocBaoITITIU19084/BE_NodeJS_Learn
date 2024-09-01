@@ -12,6 +12,7 @@ router.use(apiKey);
 // checking permission
 router.use(permission("0000"));
 
+router.use("/v1/api/comment", require("./comment/index.js"));
 router.use("/v1/api/inventory", require("./inventory/index.js"));
 router.use("/v1/api/check-out", require("./checkout/index.js"));
 router.use("/v1/api/discount", require("./discount/index.js"));
