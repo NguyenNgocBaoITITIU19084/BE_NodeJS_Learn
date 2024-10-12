@@ -12,10 +12,14 @@ const {
 const router = express.Router();
 
 router.get("/get-list", asyncHandler(commentController.getListComments));
-
+router.get(
+  "/get-list-child",
+  asyncHandler(commentController.getListChildComment)
+);
 // authentication
 router.use(authenticationV2);
 ///////////////////////////
+router.delete("/", asyncHandler(commentController.deleteComment));
 
 router.post("/create", asyncHandler(commentController.createComment));
 

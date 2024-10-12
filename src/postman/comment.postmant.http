@@ -1,9 +1,9 @@
 @url_dev=http://localhost:3055/v1/api
-@Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzI1MTYwMjk2LCJleHAiOjE3MjUzMzMwOTZ9.BwE-TYXUUZ495OkcQfxLX2Ts2olAjOphcOpRzDQsk3g
+@Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzI4NzE2MjI0LCJleHAiOjE3Mjg4ODkwMjR9.pezsDTb9_1JfOhO2OtEMJWAhu_ql3kKAcH6kg3ErBp8
 @ApiKey=baonguyen
 @ClientId=66a5b830837f0697ccebba73
 
-### Add new discount by Shop
+### Create new Comment by user
 POST {{url_dev}}/comment/create
 Content-Type: application/json
 x-api-key: {{ApiKey}}
@@ -16,7 +16,7 @@ authorization:{{Authorization}}
     "parentCommentId": "66d4242b10cdc5b18a0aa436"
 }
 
-### Add new discount by Shop
+### Get List Comment By User
 GET {{url_dev}}/comment/get-list
 Content-Type: application/json
 x-api-key: {{ApiKey}}
@@ -24,5 +24,37 @@ x-client-id: {{ClientId}}
 authorization:{{Authorization}}
 
 {
+    "productId": "66a5bfcfe7aea184f1184c16",
+    "page": 1,
+    "limit": 10,
+    "sort": "ctime",
+    "select": []
+}
+
+### Get list child comment by user
+GET {{url_dev}}/comment/get-list-child
+Content-Type: application/json
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
+
+{
+    "productId": "66a5bfcfe7aea184f1184c16",
+    "commentId": "66d4242b10cdc5b18a0aa436",
+    "page": 1,
+    "limit": 10,
+    "sort": "ctime",
+    "select": []
+}
+
+### Delete Comment
+DELETE  {{url_dev}}/comment/
+Content-Type: application/json
+x-api-key: {{ApiKey}}
+x-client-id: {{ClientId}}
+authorization:{{Authorization}}
+
+{
+    "commentId": "66d4240810cdc5b18a0aa42e",
     "productId": "66a5bfcfe7aea184f1184c16"
 }

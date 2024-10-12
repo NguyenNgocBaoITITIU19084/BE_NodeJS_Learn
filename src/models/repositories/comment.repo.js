@@ -3,6 +3,10 @@
 const commentModel = require("../../models/comment_NSM.model");
 const { getSelectData } = require("../../utils");
 
+const findComments = async (filter = {}) => {
+  return await commentModel.find(filter).lean();
+};
+
 const findOneComment = async ({
   filter = {},
   option = {},
@@ -33,7 +37,7 @@ const findManyAndUpdateComment = async ({
 };
 
 const findCommentById = async ({ commentId }) => {
-  return await commentModel.findById(commentId).lean();
+  return await commentModel.findById({ _id: commentId }).lean();
 };
 
 const createComment = async ({
@@ -56,17 +60,28 @@ const getListComments = async ({
   limit = 10,
   sort,
   select = [],
+  isPopulate = false,
 }) => {
   const skip = (page - 1) * limit;
   const sortBy = sort === "ctime" ? { _id: -1 } : { _id: 1 };
-  return await commentModel
-    .find(filter)
-    .populate("comment_parentId")
-    .sort(sortBy)
-    .skip(skip)
-    .limit(limit)
-    .select(getSelectData(select))
-    .lean();
+  if (isPopulate) {
+    return await commentModel
+      .find(filter)
+      .populate("comment_parentId")
+      .sort(sortBy)
+      .skip(skip)
+      .limit(limit)
+      .select(getSelectData(select))
+      .lean();
+  } else {
+    return await commentModel
+      .find(filter)
+      .sort(sortBy)
+      .skip(skip)
+      .limit(limit)
+      .select(getSelectData(select))
+      .lean();
+  }
 };
 
 module.exports = {
@@ -76,4 +91,5 @@ module.exports = {
   createComment,
   findManyAndUpdateComment,
   getListComments,
+  findComments,
 };

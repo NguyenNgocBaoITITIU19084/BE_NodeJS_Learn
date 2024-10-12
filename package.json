@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+ "engines": {
+    "node": "20.10.0",
+    "npm": "10.2.4"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=dev node --watch server.js",
-    "pro": "cross-env NODE_ENV=pro node --watch server.js"
+    "dev": "cross-env NODE_ENV=dev nodemon server.js",
+    "pro": "cross-env NODE_ENV=pro nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +29,7 @@
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
     "helmet": "^7.1.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.7"
   }
 }

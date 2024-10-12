@@ -9,7 +9,7 @@ const {
   getListComments,
 } = require("../models/repositories/comment.repo");
 const { convertToObjectIdMongoose } = require("../utils");
-const { NotFoundError } = require("../cores/error.response");
+const { NotFoundError, BadRequestError } = require("../cores/error.response");
 const { findProduct } = require("../models/repositories/product.repo");
 
 /**
@@ -106,13 +106,113 @@ class CommentService {
     }
   }
 
-  static async getListComments({ productId }) {
+  static async getListComments({ productId, page, limit, sort, select }) {
     const product = await findProduct({ product_id: productId });
     if (!product) throw new NotFoundError("Not Found Product");
 
-    const filter = { comment_productId: convertToObjectIdMongoose(productId) };
+    const filter = {
+      comment_productId: convertToObjectIdMongoose(productId),
+      isDeleted: false,
+    };
 
-    return await getListComments({ filter });
+    return await getListComments({
+      filter,
+      page,
+      limit,
+      sort,
+      select,
+      isPopulate: true,
+    });
+  }
+
+  static async getListChildComment({
+    productId,
+    commentId,
+    page,
+    limit,
+    sort,
+    select,
+  }) {
+    const product = await findProduct({ product_id: productId });
+    if (!product) throw new NotFoundError("Not Found Product");
+
+    const parentComment = await findOneComment({
+      filter: { _id: commentId, isDeleted: false },
+    });
+    console.log("parentComment", parentComment);
+
+    if (!parentComment) throw new NotFoundError("Not Found Comment");
+
+    const filter = {
+      comment_productId: convertToObjectIdMongoose(productId),
+      comment_parentId: convertToObjectIdMongoose(commentId),
+      isDeleted: false,
+      comment_left: { $gt: parentComment.comment_left },
+      comment_right: { $lt: parentComment.comment_right },
+    };
+
+    const listChildComment = await getListComments({
+      filter,
+      page,
+      sort,
+      limit,
+      select,
+      isPopulate: false,
+    });
+    return { page, limit, parentComment, listChildComment };
+  }
+
+  static async deleteCommentById({ commentId, userId, productId }) {
+    const product = await findProduct({ product_id: productId });
+    if (!product) throw new NotFoundError("Not Found Product");
+
+    const commentObj = await findCommentById({ commentId });
+    if (!commentObj) throw new NotFoundError("Not Found Comment");
+
+    if (commentObj.isDeleted || !commentObj.comment_userId.equals(userId))
+      throw new BadRequestError("Invalid Request");
+
+    console.log(commentObj);
+
+    const rightValue = commentObj.comment_right;
+    const leftValue = commentObj.comment_left;
+    const widthValue = rightValue - leftValue + 1;
+
+    // update delete flag of child comment
+    await findManyAndUpdateComment({
+      filter: {
+        comment_left: { $gt: leftValue },
+        comment_right: { $lt: rightValue },
+        comment_productId: productId,
+        isDeleted: false,
+      },
+      update: {
+        isDeleted: true,
+      },
+    });
+
+    // update right value and left value of comment
+    await findManyAndUpdateComment({
+      filter: {
+        comment_right: { $gt: rightValue },
+        comment_productId: productId,
+        isDeleted: false,
+      },
+      update: {
+        $inc: { comment_right: -widthValue },
+      },
+    });
+    await findManyAndUpdateComment({
+      filter: {
+        comment_left: { $gt: rightValue },
+        comment_productId: productId,
+        isDeleted: false,
+      },
+      update: {
+        $inc: { comment_left: -widthValue },
+      },
+    });
+    return true;
   }
 }
 
