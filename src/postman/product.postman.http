@@ -6,7 +6,7 @@ POST {{url_dev}}/product/
 Content-Type: application/json
 x-api-key: baonguyen
 x-client-id: 66a5b830837f0697ccebba73
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzIyOTI2MDIxLCJleHAiOjE3MjMwOTg4MjF9.JNvMUuW__mydvxNH6lMVXCGEa_sjVJCrgeNWgIzD3pU
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmE1YjgzMDgzN2YwNjk3Y2NlYmJhNzMiLCJlbWFpbCI6ImV4YW1wbGUxMjNAZ21haWwuY29tIiwiaWF0IjoxNzI4NzE2MjI0LCJleHAiOjE3Mjg4ODkwMjR9.pezsDTb9_1JfOhO2OtEMJWAhu_ql3kKAcH6kg3ErBp8
 
 {
     "product_name": "example product 2",

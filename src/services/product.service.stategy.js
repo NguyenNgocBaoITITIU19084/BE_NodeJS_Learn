@@ -19,6 +19,7 @@ const {
 } = require("../models/repositories/product.repo");
 const { cleanNestedObjectParser } = require("../utils");
 const { insertInventory } = require("../models/repositories/iventory.repo");
+const NotificationService = require("../services/notification.service");
 
 // define the Factory class to create product
 class ProductFactory {
@@ -138,11 +139,25 @@ class Product {
   async createProduct(product_id) {
     const newProduct = await product.create({ ...this, _id: product_id });
 
+    // add inventory
     await insertInventory({
       productId: newProduct._id,
       shopId: this.product_shop,
       stock: this.product_quantity,
     });
+
+    // push notification to system
+    NotificationService.pushNotiToSystem({
+      type: "promotion",
+      senderId: this.product_shop,
+      receiverId: this.product_shop,
+      option: {
+        product_name: this.product_name,
+        shop_name: this.product_shop,
+      },
+    })
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err));
     return newProduct;
   }
 
