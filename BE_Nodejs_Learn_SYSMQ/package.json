@@ -1,0 +1,21 @@
+{
+  "name": "be_nodejs_learn_sysmq",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.4",
+    "dotenv": "^16.4.5",
+    "lodash": "^4.17.21",
+    "mongoose": "^8.7.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
